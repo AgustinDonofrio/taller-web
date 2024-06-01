@@ -9,7 +9,9 @@ var usersRouter = require('./routes/users');
 var productsRoute = require('./routes/products.routes');
 
 const mongoose = require('mongoose');
-const uri = 'mongodb://mongodb:27017/myapp';
+//const uri = 'mongodb://mongodb:27017/myapp';
+const uri = 'mongodb+srv://iciano:1YaZvNnAUWl2sbqv@taller-web.nuf7yyy.mongodb.net/myapp?retryWrites=true&w=majority&appName=taller-web';
+
 
 var app = express();
 
