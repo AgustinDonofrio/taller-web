@@ -4,8 +4,12 @@ const Schema = mongoose.Schema;
 // Defino el esquema del producto
 const productSchema = new Schema({
     name: String,
-    //category: String,
-    price: Number
+    //foto
+    price: Number,
+    caduceDate: Date,
+    stock: Number,
+    description: String,
+    commerce: String
 });
 
 // Creo el modelo del producto basado en el esquema

@@ -22,11 +22,11 @@ exports.getProduct = async (req, res) => {
     }    
 };
 
-// Crear un nuevo producto
+// Crear un nuevo producto (pasar en body - {name, price, caduceDate, stock, description, commerce})
 exports.createProduct = async (req, res) => {
     try {
-        const {name, price} = req.body;
-        const newProduct = new Product({name, price});
+        const {name, price, caduceDate, stock, description, commerce} = req.body;
+        const newProduct = new Product({name, price, caduceDate, stock, description, commerce});
         const productSaved = await newProduct.save();
         res.status(201).json(productSaved);
     } catch (error) {
@@ -47,7 +47,7 @@ exports.updateProduct = async (req, res) => {
     }    
 };
 
-// Borrar un producto por su id
+// Borrar un producto por su id. (en Postman - http://localhost:3000/api/products/"id del producto")
 exports.deleteProduct = async (req, res) => {
     try {
         const { productId } = req.params;
