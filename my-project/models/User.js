@@ -48,11 +48,10 @@ const userSchema = new Schema({
         default: Date.now
       },
       idRole: {
-        type: Number,
-        required: true
-        //type: String,
+        type: String,
+        required: true,
+        default: "buyer"
         //enum: ['buyer', 'seller'], // Define los roles posibles
-        //required: true
       },
     });
 
