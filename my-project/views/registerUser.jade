@@ -1,0 +1,62 @@
+doctype html
+html(lang='en')
+  head
+    meta(charset='UTF-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+    title Registrarse - Food Saver
+    link(rel='stylesheet', href='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css')
+    style.
+      .header {
+        background-color: #4CAF50;
+        color: white;
+        padding: 1rem 0;
+        text-align: center;
+      }
+      .form-container {
+        max-width: 600px;
+        margin: 2rem auto;
+        padding: 2rem;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      }
+
+  body
+    .header
+      h1 Registrarse - Food Saver
+
+    .form-container
+      form(action='/register', method='POST')
+        .form-group
+          label(for='email') Correo Electrónico
+          input#email.form-control(type='email', name='email', placeholder='Correo Electrónico', required)
+
+        .form-group
+          label(for='username') Nombre de Usuario
+          input#username.form-control(type='text', name='username', placeholder='Nombre de Usuario', required minlength='3')
+          
+        .form-group
+          label(for='password') Contraseña
+          input#password.form-control(type='password', name='password', placeholder='Contraseña', required minlength='6')
+
+        .form-group
+          label(for='firstName') Nombre
+          input#firstName.form-control(type='text', name='firstName', placeholder='Nombre', required)
+
+        .form-group
+          label(for='lastName') Apellido
+          input#lastName.form-control(type='text', name='lastName', placeholder='Apellido', required)
+
+        .form-group
+          label(for='dateOfBirth') Fecha de Nacimiento
+          input#dateOfBirth.form-control(type='date', name='dateOfBirth')
+
+        //button.btn.btn-success.btn-block(type='submit') Registrarse
+        a.btn.btn-success.btn-block(href='/') Registrarse
+
+      hr
+
+      p ¿Ya tienes una cuenta?
+      a.btn.btn-outline-success.btn-block(href='/login') Iniciar Sesión
+
+    script(src='https://code.jquery.com/jquery-3.3.1.slim.min.js')

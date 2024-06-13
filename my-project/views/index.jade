@@ -1,5 +1,140 @@
-extends layout
+doctype html
+html
+  head
+    title Food Saver
+    meta(charset='UTF-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+    link(rel='stylesheet', href='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css')
+    link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css')
+    style.
+      .header {
+        background-color: #4CAF50;
+        color: white;
+        padding: 1rem 0;
+        text-align: center;
+      }
+      .products {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 1rem;
+        padding: 1rem;
+      }
+      .product-item {
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        overflow: hidden;
+        width: calc(25% - 1rem); /* 4 items per row */
+        text-align: center;
+        box-sizing: border-box;
+        padding: 1rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .product-item img {
+        width: 100%;
+        height: auto;
+        margin-bottom: 1rem;
+      }
+      .product-item p {
+        margin: 0;
+      }
+      .search-bar {
+        width: 100%;
+      }
+  body
+    .header
+      img(src='/path/to/logo.png', alt='Food Saver Logo', width='50')
+      h1 Food Saver
 
-block content
-  h1= title
-  p Welcome to #{title}
+    nav.navbar.navbar-expand-lg.navbar-light.bg-light
+      button.navbar-toggler(type='button', data-toggle='collapse', data-target='#navbarTogglerDemo03', aria-controls='navbarTogglerDemo03', aria-expanded='false', aria-label='Toggle navigation')
+        span.navbar-toggler-icon
+      a.navbar-brand(href='/') Home
+
+      .collapse.navbar-collapse#navbarTogglerDemo03
+        ul.navbar-nav.mr-auto.mt-2.mt-lg-0
+          li.nav-item.active
+            a.nav-link(href='/') Productos 
+              span.sr-only (current)
+          li.nav-item
+            a.nav-link(href='/commerces') Comercios
+
+        form.form-inline.my-2.my-lg-0.mx-auto(id='productFilterForm') 
+          input.form-control.mr-sm-2.search-bar(type='search', placeholder='Search', aria-label='Search', id='productNameInput', style='width: 400px;')
+          button.btn.btn-outline-success.my-2.my-sm-0(type='button', id='filterButton') Buscar
+
+        ul.navbar-nav.ml-auto
+          li.nav-item.dropdown
+            a#navbarDropdown.nav-link.dropdown-toggle(href='#', role='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false')
+              | Usuario
+            .dropdown-menu.dropdown-menu-right(aria-labelledby='navbarDropdown')
+              a.dropdown-item(href='/login') Cerrar Sesión
+
+          li.nav-item
+            a.nav-link(href='/cart')
+              button.btn.btn-success
+                i(class='fa fa-shopping-cart')
+
+    main.products
+      .product-item(id='product1')
+        a(href="product-details")
+          img(src="/images/000.jpeg", alt="Product 1")
+        p Harina purezza 000
+        button.btn.btn-secondary Añadir al carrito
+      .product-item(id='product2')
+        a(href="product-details")
+          img(src="/images/0000.jpeg", alt="Product 2")
+        p Harina purezza 0000
+        button.btn.btn-secondary Añadir al carrito
+      .product-item(id='product3')
+        a(href="product-details")
+          img(src="/images/leudante.jpeg", alt="Product 3")
+        p Harina purezza leudante
+        button.btn.btn-secondary Añadir al carrito
+      .product-item(id='product4')
+        a(href="product-details")
+          img(src="/images/arrozmarolio.jpeg", alt="Product 4")
+        p Arroz marolio
+        button.btn.btn-secondary Añadir al carrito
+      .product-item(id='product5')
+        a(href="product-details")
+          img(src="/images/arrozprimor.jpeg", alt="Product 5")
+        p Arroz primor
+        button.btn.btn-secondary Añadir al carrito
+      .product-item(id='product6')
+        a(href="product-details")
+          img(src="/images/lucchetti.jpeg", alt="Product 6")
+        p Fideos lucchetti
+        button.btn.btn-secondary Añadir al carrito
+      .product-item(id='product7')
+        a(href="product-details")
+          img(src="/images/matarazzo.jpeg", alt="Product 7")
+        p Fideos matarazzo
+        button.btn.btn-secondary Añadir al carrito
+      .product-item(id='product8')
+        a(href="product-details")
+          img(src="/images/salchichasPaladdini.jpeg", alt="Product 8")
+        p Salchichas paladdini
+        button.btn.btn-secondary Añadir al carrito
+
+    script(src='https://code.jquery.com/jquery-3.3.1.slim.min.js')
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js')
+    script(src='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js')
+    
+    script.
+      $(document).ready(function() {
+        $('#filterButton').click(function() {
+          var searchTerm = $('#productNameInput').val().toLowerCase();
+          $('.product-item').each(function() {
+            var productTitle = $(this).find('p').text().toLowerCase();
+            if (productTitle.includes(searchTerm)) {
+              $(this).show();
+            } else {
+              $(this).hide();
+            }
+          });
+        });
+      });

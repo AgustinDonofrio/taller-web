@@ -1,0 +1,46 @@
+doctype html
+html(lang='en')
+  head
+    meta(charset='UTF-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+    title Iniciar Sesión - Food Saver
+    link(rel='stylesheet', href='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css')
+    style.
+      .header {
+        background-color: #4CAF50;
+        color: white;
+        padding: 1rem 0;
+        text-align: center;
+      }
+      .form-container {
+        max-width: 400px;
+        margin: 2rem auto;
+        padding: 2rem;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      }
+
+  body
+    .header
+      h1 Iniciar Sesión - Food Saver
+
+    .form-container
+      form(action='/', method='POST')
+        .form-group
+          label(for='email') Correo Electrónico
+          input#email.form-control(type='email', name='email', placeholder='Correo Electrónico', required)
+          
+        .form-group
+          label(for='password') Contraseña
+          input#password.form-control(type='password', name='password', placeholder='Contraseña', required)
+          
+        //button.btn.btn-success.btn-block(type='submit') Iniciar Sesión
+        a.btn.btn-success.btn-block(href='/') Iniciar Sesión
+
+      hr
+
+      p ¿No tienes cuenta?
+      a.btn.btn-outline-success.btn-block(href='/registerCommerce') Registrarse
+
+    script(src='https://code.jquery.com/jquery-3.3.1.slim.min.js')

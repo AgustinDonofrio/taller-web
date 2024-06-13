@@ -45,6 +45,18 @@ const commerceSchema = new Schema({
 
 })
 
+/*
+// Antes de guardar, hashear la contraseña
+commerceSchema.pre('save', async function (next) {
+    const commerce = this;
+    if (commerce.isModified('password')) {
+      const salt = await bcrypt.genSalt(10);
+      const hash = await bcrypt.hash(commerce.password, salt);
+      commerce.password = hash;
+    }
+    next();
+  });
+*/
 
 // Creo el modelo del comercio basado en el esquema
 const Commerce = mongoose.model('commerce', commerceSchema);

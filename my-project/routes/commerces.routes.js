@@ -1,8 +1,16 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
 
-var commercesController = require('../controllers/commerces.controller.js');
+const commercesController = require('../controllers/commerces.controller.js');
+const productController = require('../controllers/products.controller.js');
 
-router.post('/', commercesController.createCommerce);
+router.get('/', function(req, res, next) {
+    res.render('commerces');
+  });
+
+//router.get('/:commerceId/products', commercesController.getCommerceProducts);
+
+router.post('/commerces/register', commercesController.createCommerce);
+
 
 module.exports = router;

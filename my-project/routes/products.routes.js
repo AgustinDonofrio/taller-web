@@ -7,7 +7,7 @@ router.get('/', productsController.getProducts);
 
 router.get('/:productId', productsController.getProduct);
 
-router.post('/', productsController.createProduct);
+router.post('/:commerceId/products/new', productsController.createProduct);
 
 router.put('/:productId', productsController.updateProduct);
 
