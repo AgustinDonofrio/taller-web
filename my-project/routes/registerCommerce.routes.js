@@ -8,4 +8,6 @@ router.get('/', (req, res) => {
 });
 
 
+router.post('/', commerceController.createCommerce);
+
 module.exports = router;

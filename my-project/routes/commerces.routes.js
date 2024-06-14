@@ -10,7 +10,5 @@ router.get('/', function(req, res, next) {
 
 //router.get('/:commerceId/products', commercesController.getCommerceProducts);
 
-router.post('/commerces/register', commercesController.createCommerce);
-
 
 module.exports = router;
