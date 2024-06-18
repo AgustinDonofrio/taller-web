@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-
+const Commerce = require('../models/Commerce');
 
 router.get('/', function(req, res, next) {
     res.render('login');
@@ -8,36 +8,30 @@ router.get('/', function(req, res, next) {
   
 
 
-/*
 // Ruta para iniciar sesión
-router.post('/login', async (req, res) => {
+router.post('/', async (req, res) => {
   const { email, password } = req.body;
   try {
     let commerce = await Commerce.findOne({ email });
     if (!commerce) {
-      return res.status(404).json({ message: 'Correo electrónico no registrado' });
+      return res.render('login', { error: 'Correo electrónico no registrado' });
     }
-    const isMatch = await bcrypt.compare(password, commerce.password);
-    if (!isMatch) {
-      return res.status(401).json({ message: 'Credenciales inválidas' });
+    if (commerce.password !== password) {
+      return res.render('login', { error: 'Contraseña incorrecta' });
     }
-    // Generar y enviar token JWT
-    const payload = {
-      commerce: {
-        id: commerce._id,
-        email: commerce.email,
-      },
+
+    req.session.uCommerce = {
+      id: commerce._id,
+      name: commerce.name,
+      email: commerce.email
     };
-    jwt.sign(payload, 'jwt_secret_key', { expiresIn: '1h' }, (err, token) => {
-      if (err) throw err;
-      res.status(200).json({ token });
-    });
+
+    res.redirect('/home'); 
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: 'Error en el servidor' });
+    res.render('login', { error: 'Error en el servidor' });
   }
 });
-*/
 
 
 module.exports = router;

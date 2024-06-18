@@ -89,6 +89,17 @@ html
               button.btn.btn-success
                 i(class='fa fa-shopping-cart')
 
+   
+    main.products
+      if products && products.length
+        each product in products
+          .product-item(id='product1')
+            a(href="product-details")
+              img(src=product.photo, alt=product.name)
+            p= product.name
+            button.btn.btn-secondary Añadir al carrito
+      else
+        p No hay productos disponibles
 
     script(src='https://code.jquery.com/jquery-3.3.1.slim.min.js')
     script(src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js')

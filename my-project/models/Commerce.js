@@ -9,7 +9,6 @@ const commerceSchema = new Schema({
         required: true,
         //unique: true,
         trim: true, // Elimina los espacios en blanco al principio y al final de la cadena de string
-        minlength: 3
     },
     password:
     { // Contraseña requerida, con un mínimo de 6 caracteres.
@@ -30,12 +29,6 @@ const commerceSchema = new Schema({
         required: true,
         unique: true
     },
-    products:
-    [
-        {
-          "product_id": String, // Referencia al producto
-        }
-    ],
     idRole: 
     {
         type: String,

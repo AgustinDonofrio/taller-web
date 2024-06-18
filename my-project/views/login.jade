@@ -26,17 +26,19 @@ html(lang='en')
       h1 Iniciar Sesión - Food Saver
 
     .form-container
+      if error
+        .alert.alert-danger= error
+      
       form(action='/', method='POST')
         .form-group
           label(for='email') Correo Electrónico
           input#email.form-control(type='email', name='email', placeholder='Correo Electrónico', required)
-          
+
         .form-group
           label(for='password') Contraseña
           input#password.form-control(type='password', name='password', placeholder='Contraseña', required)
-          
-        //button.btn.btn-success.btn-block(type='submit') Iniciar Sesión
-        a.btn.btn-success.btn-block(href='/') Iniciar Sesión
+
+        button.btn.btn-success.btn-block(type='submit') Iniciar Sesión
 
       hr
 
