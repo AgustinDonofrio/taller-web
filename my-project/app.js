@@ -4,7 +4,8 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var session = require('express-session');
-var multer = require('multer');
+var methodOverride = require('method-override');
+
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users.routes');
 var productsRouter = require('./routes/products.routes');
@@ -12,6 +13,7 @@ var commerceRouter = require('./routes/commerces.routes');
 var loginRouter = require('./routes/login.routes');
 var registerUserRouter = require('./routes/registerUser.routes');
 var registerCommerceRouter = require('./routes/registerCommerce.routes');
+var carritoRouter = require('./routes/carrito.routes');
 
 const mongoose = require('mongoose');
 const uri = 'mongodb+srv://iciano:1YaZvNnAUWl2sbqv@taller-web.nuf7yyy.mongodb.net/myapp?retryWrites=true&w=majority&appName=taller-web';
@@ -38,12 +40,13 @@ var app = express();
 app.use(session({
   secret: '12345', 
   resave: false,
-  saveUninitialized: false
+  saveUninitialized: true
 }));
 
 
 // middlewares
 app.use(express.json());
+app.use(methodOverride('_method'));
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -62,6 +65,7 @@ app.use('/commerces', commerceRouter);
 app.use('/', loginRouter);
 app.use('/register', registerUserRouter);
 app.use('/registerCommerce', registerCommerceRouter);
+app.use('/carrito', carritoRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

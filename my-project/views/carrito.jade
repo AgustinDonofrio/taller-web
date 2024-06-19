@@ -88,19 +88,41 @@ html
             a.nav-link(href='/carrito')
               button.btn.btn-success
                 i(class='fa fa-shopping-cart')
-
-   
+        
     main.products
       if products && products.length
-        each product in products
-          .product-item(id='product1')
-            a(href="product-details")
-              img(src=product.photo, alt=product.name)
-            p= product.name
-            form(action=`/carrito/${product._id}`, method='POST')
-              button.btn.btn-secondary(type='submit') Añadir al carrito
+        table.table.table-striped
+          thead
+            tr
+              th Imagen
+              th Nombre
+              th Precio
+              th Cantidad
+              th Descripción
+              th Acciones
+          tbody
+            each product in products
+              tr(data-product-id=product._id)
+                td
+                  img(src=product.photo, alt=product.name, width="50")
+                td.editable-field(data-field='name')= product.name
+                td.editable-field(data-field='price')= product.price
+                td.editable-field(data-field='quantity')= product.quantity
+                td.editable-field(data-field='description')= product.description
+                td.action-buttons
+                  form(action=`/carrito/${product._id}`, method='DELETE', style='display:inline;')
+                    button.btn.btn-danger(type='submit') Eliminar
+        form(action='/carrito/confirm', method='POST', style='margin-top: 20px;')
+          button.btn.btn-success(type='submit') Confirmar
+        form(action='/carrito/cancel', method='POST', style='margin-top: 20px;')
+          button.btn.btn-danger(type='submit') Cancelar
       else
         p No hay productos disponibles
+
+
+
+
+
 
     script(src='https://code.jquery.com/jquery-3.3.1.slim.min.js')
     script(src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js')
@@ -120,5 +142,3 @@ html
           });
         });
       });
-
-    

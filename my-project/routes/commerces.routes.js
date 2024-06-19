@@ -7,4 +7,8 @@ router.get('/', commercesController.getProductsByCommerce);
 
 router.post('/', productController.createProduct);
 
+router.put('/:productId', productController.updateProduct);
+
+router.delete('/:productId', productController.deleteProduct);
+
 module.exports = router;

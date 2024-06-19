@@ -31,8 +31,8 @@ exports.createProduct = async (req, res) => {
 exports.updateProduct = async (req, res) => {
     try {
         const { productId } = req.params;
-        const updatedProduct = await Product.findByIdAndUpdate(productId, req.body, {new: true});
-        res.status(200).json(updatedProduct);
+        await Product.findByIdAndUpdate(productId, req.body, {new: true});
+        res.redirect('/commerces');
     } catch (error) {
         res.status(500).json({message: error.message});        
     }    
@@ -42,8 +42,8 @@ exports.updateProduct = async (req, res) => {
 exports.deleteProduct = async (req, res) => {
     try {
         const { productId } = req.params;
-        const deletedProduct = await Product.findByIdAndDelete(productId);
-        res.status(200).json(deletedProduct);
+        await Product.findByIdAndDelete(productId);
+        res.redirect('/commerces');
     } catch (error) {
         res.status(500).json({message: error.message});        
     }    

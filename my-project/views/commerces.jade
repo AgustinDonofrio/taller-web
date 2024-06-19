@@ -75,7 +75,7 @@ html(lang='en')
             .dropdown-menu.dropdown-menu-right(aria-labelledby='navbarDropdown')
               a.dropdown-item(href='/') Cerrar Sesión
 
-    main.products
+   main.products
       if products && products.length
         table.table.table-striped
           thead
@@ -88,15 +88,16 @@ html(lang='en')
               th Acciones
           tbody
             each product in products
-              tr
+              tr(data-product-id=product._id)
                 td: img(src=product.photo, alt=product.name, width="50")
-                td= product.name
-                td= product.price
-                td= product.stock
-                td= product.description
+                td.editable-field(data-field='name')= product.name
+                td.editable-field(data-field='price')= product.price
+                td.editable-field(data-field='stock')= product.stock
+                td.editable-field(data-field='description')= product.description
                 td.action-buttons
-                  a.btn.btn-secondary(href=`/comerciante/editar/${product._id}`) Editar
-                  form(action=`/comerciante/eliminar/${product._id}`, method='POST', style='display:inline')
+                  button.btn.btn-secondary.edit-btn(type='button') Editar
+                  | &nbsp; <!-- Espacio entre botones -->
+                  form(action=`/commerces/${product._id}?_method=DELETE`, method='POST', style='display:inline;')
                     button.btn.btn-danger(type='submit') Eliminar
       else
         p No hay productos disponibles
@@ -104,7 +105,7 @@ html(lang='en')
     .add-product-form
       h2 Agregar Producto
 
-      form(action='/commerces', method='POST', enctype='multipart/form-data')
+      form(action='/commerces', method='POST')
         .form-group
           label(for='name') Nombre del Producto
           input#name.form-control(type='text', name='name', placeholder='Nombre del Producto', required)
@@ -127,7 +128,7 @@ html(lang='en')
           
         .form-group
           label(for='photo') Foto del Producto
-          input#photo.form-control(type='file', name='photo', accept='image/*', required)
+          input#photo.form-control(type='text', name='photo', required)
           
         button.btn.btn-primary(type='submit') Agregar Producto
 
@@ -159,4 +160,63 @@ html(lang='en')
           }
         });
       });
-    });    
+    });   
+  
+  script.
+    $(document).ready(function() {
+      // Función para activar la edición de campos
+      $('.edit-btn').click(function() {
+        var tableRow = $(this).closest('tr');
+
+        // Guardar los valores originales para poder restaurarlos al cancelar
+        var originalValues = {};
+        tableRow.find('.editable-field').each(function() {
+          var fieldName = $(this).data('field');
+          var fieldValue = $(this).text().trim();
+          originalValues[fieldName] = fieldValue;
+        });
+
+        // Convertir los campos a inputs para editar
+        tableRow.find('.editable-field').each(function() {
+          var fieldValue = $(this).text().trim();
+          $(this).html(`<input type="text" class="form-control" value="${fieldValue}">`);
+        });
+
+        $(this).hide();
+        tableRow.find('.action-buttons').append(`
+          <button class="btn btn-success save-btn" type="button">Guardar</button>
+          <button class="btn btn-secondary cancel-btn" type="button">Cancelar</button>
+        `);
+      });
+
+      // Función para guardar los cambios editados
+      $(document).on('click', '.save-btn', function() {
+        var tableRow = $(this).closest('tr');
+
+        // Actualizar los valores en el DOM
+        tableRow.find('.editable-field').each(function() {
+          var fieldValue = $(this).find('input').val();
+          $(this).html(fieldValue);
+        });
+
+        // Restaurar botón de editar
+        tableRow.find('.edit-btn').show();
+        tableRow.find('.save-btn, .cancel-btn').remove();
+      });
+
+      // Función para cancelar la edición y restaurar los valores originales
+      $(document).on('click', '.cancel-btn', function() {
+        var tableRow = $(this).closest('tr');
+
+        // Restaurar los valores originales
+        tableRow.find('.editable-field').each(function() {
+          var fieldName = $(this).data('field');
+          var originalValue = originalValues[fieldName];
+          $(this).html(originalValue);
+        });
+
+        // Restaurar botón de editar
+        tableRow.find('.edit-btn').show();
+        tableRow.find('.save-btn, .cancel-btn').remove();
+      });
+    });
