@@ -133,6 +133,7 @@ html(lang='en')
         button.btn.btn-primary(type='submit') Agregar Producto
 
   script(src='https://code.jquery.com/jquery-3.3.1.slim.min.js')
+  script(src='https://code.jquery.com/jquery-3.3.1.min.js')
   script(src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js')
   script(src='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js')
 
@@ -164,12 +165,14 @@ html(lang='en')
   
   script.
     $(document).ready(function() {
+      var originalValues = {}; // Definir originalValues fuera del alcance de los eventos
+
       // Función para activar la edición de campos
       $('.edit-btn').click(function() {
         var tableRow = $(this).closest('tr');
 
         // Guardar los valores originales para poder restaurarlos al cancelar
-        var originalValues = {};
+        originalValues = {};
         tableRow.find('.editable-field').each(function() {
           var fieldName = $(this).data('field');
           var fieldValue = $(this).text().trim();
@@ -182,41 +185,64 @@ html(lang='en')
           $(this).html(`<input type="text" class="form-control" value="${fieldValue}">`);
         });
 
-        $(this).hide();
+        // Ocultar el botón de Eliminar
+        tableRow.find('.btn-danger').hide();
+
+        // Mostrar botones de Guardar y Cancelar
         tableRow.find('.action-buttons').append(`
-          <button class="btn btn-success save-btn" type="button">Guardar</button>
+          <button class="btn btn-primary save-btn" type="button">Guardar</button>
           <button class="btn btn-secondary cancel-btn" type="button">Cancelar</button>
         `);
-      });
 
-      // Función para guardar los cambios editados
-      $(document).on('click', '.save-btn', function() {
-        var tableRow = $(this).closest('tr');
-
-        // Actualizar los valores en el DOM
-        tableRow.find('.editable-field').each(function() {
-          var fieldValue = $(this).find('input').val();
-          $(this).html(fieldValue);
-        });
-
-        // Restaurar botón de editar
-        tableRow.find('.edit-btn').show();
-        tableRow.find('.save-btn, .cancel-btn').remove();
+        $(this).hide(); // Ocultar el botón Editar
       });
 
       // Función para cancelar la edición y restaurar los valores originales
       $(document).on('click', '.cancel-btn', function() {
         var tableRow = $(this).closest('tr');
 
-        // Restaurar los valores originales
+        // Restaurar los valores originales guardados previamente
         tableRow.find('.editable-field').each(function() {
           var fieldName = $(this).data('field');
           var originalValue = originalValues[fieldName];
           $(this).html(originalValue);
         });
 
-        // Restaurar botón de editar
         tableRow.find('.edit-btn').show();
         tableRow.find('.save-btn, .cancel-btn').remove();
+        tableRow.find('.btn-danger').show();
+      });
+
+
+      $(document).on('click', '.save-btn', function() {
+        var tableRow = $(this).closest('tr');
+        var productId = tableRow.data('product-id').replace(/['"]+/g, '');
+        var updatedData = {};
+
+        tableRow.find('.editable-field').each(function() {
+          var fieldName = $(this).data('field');
+          var fieldValue = $(this).find('input').val();
+          updatedData[fieldName] = fieldValue;
+        });
+
+        console.log('productId:', productId);
+        console.log('updatedData:', updatedData);
+
+        $.ajax({
+          url: `/commerces/${productId}`,
+          method: 'PUT',
+          data: $.param(updatedData),
+          contentType: 'application/x-www-form-urlencoded',
+        });
+
+
+        tableRow.find('.editable-field').each(function() {
+          var fieldName = $(this).data('field');
+          $(this).html(updatedData[fieldName]);
+        });
+
+        tableRow.find('.edit-btn').show();
+        tableRow.find('.save-btn, .cancel-btn').remove();
+        tableRow.find('.btn-danger').show();
       });
     });

@@ -64,11 +64,14 @@ exports.addProduct = async (req, res) => {
 
 
 
+// controllers/carrito.controller.js
+
 exports.confirmCart = async (req, res) => {
     try {
-        // Aquí podrías agregar lógica para guardar la orden en la base de datos, enviar un correo, etc.
-        // Por ahora, simplemente vaciaremos el carrito
-        req.session.cart = [];
+        // Lógica para confirmar el carrito aquí
+        req.session.cart = []; // Vacía el carrito en la sesión
+
+        // Redirige a la página de productos u otra página adecuada
         res.redirect('/products');
     } catch (error) {
         console.error(error);
@@ -125,3 +128,4 @@ exports.removeProduct = async (req, res) => {
         res.status(500).json({ message: 'Error al eliminar producto del carrito' });
     }
 };
+

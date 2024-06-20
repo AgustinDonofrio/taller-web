@@ -110,11 +110,11 @@ html
                 td.editable-field(data-field='quantity')= product.quantity
                 td.editable-field(data-field='description')= product.description
                 td.action-buttons
-                  form(action=`/carrito/${product._id}`, method='DELETE', style='display:inline;')
+                  form(action=`/carrito/${product._id}?_method=DELETE`, method='POST', style='display:inline;')
                     button.btn.btn-danger(type='submit') Eliminar
-        form(action='/carrito/confirm', method='POST', style='margin-top: 20px;')
+        form(action='/carrito/confirmar-carrito', method='POST', style='margin-top: 20px;')
           button.btn.btn-success(type='submit') Confirmar
-        form(action='/carrito/cancel', method='POST', style='margin-top: 20px;')
+        form(action='/carrito/cancelar-carrito', method='POST', style='margin-top: 20px;')
           button.btn.btn-danger(type='submit') Cancelar
       else
         p No hay productos disponibles
@@ -142,3 +142,23 @@ html
           });
         });
       });
+
+  script.
+    $(document).ready(function() {
+      // Manejador de evento para el botón de Confirmar carrito
+      $('#confirmCartSubmitBtn').click(function() {
+        $.ajax({
+          url: '/carrito/confirmar-carrito',
+          method: 'POST',
+          success: function(response) {
+            // Manejar la respuesta exitosa aquí (por ejemplo, redirigir a otra página)
+            window.location.href = '/products';
+          },
+          error: function(error) {
+            console.error('Error al confirmar el carrito:', error);
+            // Manejar el error (mostrar un mensaje al usuario, etc.)
+            alert('Error al confirmar el carrito. Inténtelo de nuevo más tarde.');
+          }
+        });
+      });
+    });
