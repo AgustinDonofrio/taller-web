@@ -120,10 +120,6 @@ html
         p No hay productos disponibles
 
 
-
-
-
-
     script(src='https://code.jquery.com/jquery-3.3.1.slim.min.js')
     script(src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js')
     script(src='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js')
@@ -142,23 +138,3 @@ html
           });
         });
       });
-
-  script.
-    $(document).ready(function() {
-      // Manejador de evento para el botón de Confirmar carrito
-      $('#confirmCartSubmitBtn').click(function() {
-        $.ajax({
-          url: '/carrito/confirmar-carrito',
-          method: 'POST',
-          success: function(response) {
-            // Manejar la respuesta exitosa aquí (por ejemplo, redirigir a otra página)
-            window.location.href = '/products';
-          },
-          error: function(error) {
-            console.error('Error al confirmar el carrito:', error);
-            // Manejar el error (mostrar un mensaje al usuario, etc.)
-            alert('Error al confirmar el carrito. Inténtelo de nuevo más tarde.');
-          }
-        });
-      });
-    });

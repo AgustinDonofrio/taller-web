@@ -11,6 +11,19 @@ exports.getProducts = async (req, res) => {
 };
 
 
+exports.getProduct = async (req, res) => {
+    try {
+        const { productId } = req.params;
+        const product = await Product.findById(productId);
+        if (!product) {
+            return res.status(404).json({ message: 'Producto no encontrado' });
+        }
+        res.render('products-details', { product, user: req.session.uCommerce });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
 exports.createProduct = async (req, res) => {
     try {
         const { name, price, caduceDate, stock, description, photo } = req.body;

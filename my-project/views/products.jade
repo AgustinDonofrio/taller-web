@@ -93,8 +93,8 @@ html
     main.products
       if products && products.length
         each product in products
-          .product-item(id='product1')
-            a(href="product-details")
+          .product-item(id=`product${product._id}`) 
+            a(href=`/products/product-details/${product._id}`) 
               img(src=product.photo, alt=product.name)
             p= product.name
             form(action=`/carrito/${product._id}`, method='POST')
