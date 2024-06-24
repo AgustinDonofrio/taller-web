@@ -63,6 +63,12 @@ html(lang='en')
           li.nav-item.active
             a.nav-link#toggleFormBtn(href='#') Agregar Producto
               span.sr-only (current)
+          li.nav-item.active
+            a.nav-link#toggleFormBtn(href='/commerces/compras') Compras
+              span.sr-only (current)
+
+
+         
           
         form.form-inline.my-2.my-lg-0.mx-auto(id='productFilterForm') 
           input.form-control.mr-sm-2.search-bar(type='search', placeholder='Buscar', aria-label='Buscar', id='productNameInput', style='width: 400px;')
@@ -144,7 +150,6 @@ html(lang='en')
         $('.add-product-form').toggle(); // Alternar la visibilidad del formulario al hacer clic en el botón
         $('table, p').toggle(); // Alternar la visibilidad de la tabla de productos y el mensaje de "No hay productos disponibles"
         $('#productFilterForm').toggle(); // Alternar la visibilidad del formulario de búsqueda
-        $(this).parent().toggle(); // Ocultar el elemento padre (li.nav-item.active)
       });
     });
 

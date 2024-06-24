@@ -1,4 +1,6 @@
 const Product = require('../models/Product.js');
+const Order = require('../models/order.js');
+
 
 // Método para obtener productos por id_commerce
 exports.getProductsByUsers = async (req, res) => {
@@ -19,7 +21,7 @@ exports.getProductsByUsers = async (req, res) => {
                                            };
                                        });
 
-        res.render('carrito', { products: cartProducts, user: req.session.uCommerce });
+        res.render('carrito', { products: cartProducts, user: req.session.user });
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: error.message });
@@ -64,14 +66,27 @@ exports.addProduct = async (req, res) => {
 
 
 
-// controllers/carrito.controller.js
-
 exports.confirmCart = async (req, res) => {
     try {
-        // Lógica para confirmar el carrito aquí
-        req.session.cart = []; // Vacía el carrito en la sesión
+        // Recolectar información del carrito y del usuario
+        const cart = req.session.cart;
+        const user = req.session.user; // Asegúrate de tener la información del usuario en la sesión o en la solicitud
+        //const totalAmount = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
-        // Redirige a la página de productos u otra página adecuada
+        // Crear una nueva orden
+        const newOrder = new Order({
+            user: req.session.user.id,
+            cart: cart,
+          //  totalAmount: totalAmount
+        });
+
+        // Guardar la orden en la base de datos
+        await newOrder.save();
+
+        // Vaciar el carrito
+        req.session.cart = [];
+        
+        // Redirigir al usuario
         res.redirect('/products');
     } catch (error) {
         console.error(error);

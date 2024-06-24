@@ -26,7 +26,7 @@ html(lang='en')
       h1 Registrarse - Food Saver
 
     .form-container
-      form(action='/register', method='POST')
+      form(action='/registerUser', method='POST')
         .form-group
           label(for='email') Correo Electrónico
           input#email.form-control(type='email', name='email', placeholder='Correo Electrónico', required)
@@ -51,12 +51,11 @@ html(lang='en')
           label(for='dateOfBirth') Fecha de Nacimiento
           input#dateOfBirth.form-control(type='date', name='dateOfBirth')
 
-        //button.btn.btn-success.btn-block(type='submit') Registrarse
-        a.btn.btn-success.btn-block(href='/') Registrarse
+        button.btn.btn-success.btn-block(type='submit') Registrarse
 
       hr
 
       p ¿Ya tienes una cuenta?
-      a.btn.btn-outline-success.btn-block(href='/login') Iniciar Sesión
+      a.btn.btn-outline-success.btn-block(href='/') Iniciar Sesión
 
     script(src='https://code.jquery.com/jquery-3.3.1.slim.min.js')

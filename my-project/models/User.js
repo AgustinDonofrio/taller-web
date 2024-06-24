@@ -3,7 +3,13 @@ const Schema = mongoose.Schema;
 
 // Defino el esquema del usuario
 const userSchema = new Schema({
-    username: { // El nombre del usuario es único, requerido y con un mínimo de 3 caracteres.
+      email: { // Correo electrónico único, requerido, y debe coincidir con un patrón de correo válido.
+        type: String,
+        required: true,
+        unique: true,
+        match: /.+@.+..+/
+      },
+      username: { // El nombre del usuario es único, requerido y con un mínimo de 3 caracteres.
         type: String,
         required: true,
         unique: true,
@@ -14,12 +20,6 @@ const userSchema = new Schema({
         type: String,
         required: true,
         minlength: 6
-      },
-      email: { // Correo electrónico único, requerido, y debe coincidir con un patrón de correo válido.
-        type: String,
-        required: true,
-        unique: true,
-        match: /.+@.+..+/
       },
       firstName: { // Nombre del usuario, requerida
         type: String,

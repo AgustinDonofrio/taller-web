@@ -1,6 +1,7 @@
 const Commerce = require('../models/Commerce.js');
 const Product = require('../models/Product.js');
-
+const User = require('../models/User.js');
+const Order = require('../models/order');
 
 // Crear un nuevo comercio
 exports.createCommerce = async (req, res) => {
@@ -29,3 +30,12 @@ exports.getProductsByCommerce = async (req, res) => {
 };
 
 
+// Método para obtener las compras de los usuarios
+exports.getCompras = async (req, res) => {
+    try {
+        const orders = await Order.find();
+        res.render('compras', { orders, user: req.session.uCommerce });
+    } catch (error) {
+        res.status(500).json({message: error.message});
+    }
+};

@@ -11,6 +11,7 @@ var usersRouter = require('./routes/users.routes');
 var productsRouter = require('./routes/products.routes');
 var commerceRouter = require('./routes/commerces.routes');
 var loginRouter = require('./routes/login.routes');
+var registerRouter = require('./routes/register.routes');
 var registerUserRouter = require('./routes/registerUser.routes');
 var registerCommerceRouter = require('./routes/registerCommerce.routes');
 var carritoRouter = require('./routes/carrito.routes');
@@ -63,7 +64,8 @@ app.use('/users', usersRouter);
 app.use('/products', productsRouter);
 app.use('/commerces', commerceRouter);
 app.use('/', loginRouter);
-app.use('/register', registerUserRouter);
+app.use('/register', registerRouter);
+app.use('/registerUser', registerUserRouter);
 app.use('/registerCommerce', registerCommerceRouter);
 app.use('/carrito', carritoRouter);
 

@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-//var usersController = require('../controllers/users.controller.js');
+const usersController = require('../controllers/users.controller.js');
 
 // Renderizar el formulario de registro
 router.get('/', (req, res) => {
@@ -8,7 +8,7 @@ router.get('/', (req, res) => {
 });
 
 
-//router.post('/', usersController.createUser);
+router.post('/', usersController.createUser);
 
 // Manejar el envío del formulario de registro
 /*

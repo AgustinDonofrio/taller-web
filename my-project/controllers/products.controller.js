@@ -4,7 +4,7 @@ const Product = require('../models/Product.js');
 exports.getProducts = async (req, res) => {
     try {
         const products = await Product.find();
-        res.render('products', { products, user: req.session.uCommerce });
+        res.render('products', { products, user: req.session.user });
     } catch (error) {
         res.status(500).json({message: error.message});
     }
@@ -18,7 +18,7 @@ exports.getProduct = async (req, res) => {
         if (!product) {
             return res.status(404).json({ message: 'Producto no encontrado' });
         }
-        res.render('products-details', { product, user: req.session.uCommerce });
+        res.render('products-details', { product, user: req.session.user });
     } catch (error) {
         res.status(500).json({ message: error.message });
     }

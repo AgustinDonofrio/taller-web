@@ -3,7 +3,7 @@ const router = express.Router();
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Food Saver', user: req.session.uCommerce });
+  res.render('index', { title: 'Food Saver', user: req.session.user });
 });
 
 module.exports = router;
