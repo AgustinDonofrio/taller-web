@@ -30,12 +30,29 @@ exports.getProductsByCommerce = async (req, res) => {
 };
 
 
+// Método para obtener comercios
+exports.getCommerces = async (req, res) => {
+    try {
+        const stores = await Commerce.find();
+        res.render('stores', { stores, user: req.session.user });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: error.message });
+    }
+};
+
+
 // Método para obtener las compras de los usuarios
 exports.getCompras = async (req, res) => {
     try {
-        const orders = await Order.find();
+        const commerceId = req.session.uCommerce.id;
+        const orders = await Order.find({ commerce: commerceId })
+            .populate('user', 'firstName lastName')  // Incluye solo los campos que necesitas del usuario
+            .populate('product', 'name price'); // Incluye solo los campos que necesitas del producto
+
         res.render('compras', { orders, user: req.session.uCommerce });
     } catch (error) {
-        res.status(500).json({message: error.message});
+        console.error(error);
+        res.status(500).json({ message: error.message });
     }
 };

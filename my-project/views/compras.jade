@@ -53,52 +53,58 @@ html(lang='en')
     .header
       h1 Bienvenido Comerciante
 
-      nav.navbar.navbar-expand-lg.navbar-light.bg-light
-        button.navbar-toggler(type='button', data-toggle='collapse', data-target='#navbarTogglerDemo03', aria-controls='navbarTogglerDemo03', aria-expanded='false', aria-label='Toggle navigation')
-          span.navbar-toggler-icon
-        a.navbar-brand(href='/commerces') Productos
+    nav.navbar.navbar-expand-lg.navbar-light.bg-light
+      button.navbar-toggler(type='button', data-toggle='collapse', data-target='#navbarTogglerDemo03', aria-controls='navbarTogglerDemo03', aria-expanded='false', aria-label='Toggle navigation')
+        span.navbar-toggler-icon
+      a.navbar-brand(href='/commerces') Productos
 
-        .collapse.navbar-collapse#navbarTogglerDemo03
-          ul.navbar-nav.mr-auto.mt-2.mt-lg-0
-            li.nav-item.active
-              a.nav-link#toggleFormBtn(href='#') Agregar Producto
-                span.sr-only (current)
-            li.nav-item.active
-              a.nav-link#toggleFormBtn(href='/commerces/compras') Compras
-                span.sr-only (current)
+      .collapse.navbar-collapse#navbarTogglerDemo03
+        ul.navbar-nav.mr-auto.mt-2.mt-lg-0
+          li.nav-item.active
+            a.nav-link#toggleFormBtn(href='#') Agregar Producto
+              span.sr-only (current)
+          li.nav-item.active
+            a.nav-link#toggleFormBtn(href='/commerces/compras') Compras
+              span.sr-only (current)
             
-          form.form-inline.my-2.my-lg-0.mx-auto(id='productFilterForm') 
-            input.form-control.mr-sm-2.search-bar(type='search', placeholder='Buscar', aria-label='Buscar', id='productNameInput', style='width: 400px;')
-            button.btn.btn-outline-success.my-2.my-sm-0(type='button', id='filterButton') Buscar
+        form.form-inline.my-2.my-lg-0.mx-auto(id='productFilterForm') 
+          input.form-control.mr-sm-2.search-bar(type='search', placeholder='Buscar', aria-label='Buscar', id='productNameInput', style='width: 400px;')
+          button.btn.btn-outline-success.my-2.my-sm-0(type='button', id='filterButton') Buscar
 
-          ul.navbar-nav.ml-auto
-            li.nav-item.dropdown
-              a#navbarDropdown.nav-link.dropdown-toggle(href='#', role='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false')
-                | #{user.name}
-              .dropdown-menu.dropdown-menu-right(aria-labelledby='navbarDropdown')
-                a.dropdown-item(href='/') Cerrar Sesión
+        ul.navbar-nav.ml-auto
+          li.nav-item.dropdown
+            a#navbarDropdown.nav-link.dropdown-toggle(href='#', role='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false')
+              | #{user.name}
+            .dropdown-menu.dropdown-menu-right(aria-labelledby='navbarDropdown')
+              a.dropdown-item(href='/') Cerrar Sesión
+    br
 
-    .container
+  .container
       if orders.length
-        table.table.table-striped
-          thead
-            tr
-              th Usuario
-              th Productos
-              //th Total
-              th Fecha
-          tbody
-            each order in orders
-              tr
-                td= order.user.name
-                td
-                  ul
-                    each item in order.cart
-                      li= `${item.name} - ${item.quantity} x $${item.price}`
-                //td= `$${order.totalAmount.toFixed(2)}`
-                td= order.createdAt.toLocaleString()
+          table.table.table-sm
+              thead
+                  tr
+                      th.text-center Usuario
+                      th.text-center Producto
+                      th.text-center Cantidad
+                      th.text-center Monto Total
+                      th.text-center Fecha
+                      th.text-center ✓
+              tbody
+                  each order in orders
+                      tr
+                          td.text-center= `${order.user.firstName} ${order.user.lastName}`
+                          td.text-center= order.product.name
+                          td.text-center= order.quantity
+                          td.text-center= order.totalAmount
+                          td.text-center= order.createdAt.toDateString()
+                          td.text-center
+                              form(action=`/commerces/compras/${order._id}`, method='POST')
+                                  button.btn.btn-success.btn-sm(type='submit') ✓ 
       else
-        p No hay órdenes disponibles
+          p No hay compras registradas.
+
+
 
     .add-product-form
       h2 Agregar Producto
@@ -149,13 +155,20 @@ html(lang='en')
     $(document).ready(function() {
       $('#filterButton').click(function() {
         var searchTerm = $('#productNameInput').val().toLowerCase();
-        $('.product-item').each(function() {
-          var productTitle = $(this).find('p').text().toLowerCase();
-          if (productTitle.includes(searchTerm)) {
+        $('table.table tbody tr').each(function() {
+          var found = false;
+          $(this).find('td').each(function() {
+            var cellText = $(this).text().toLowerCase();
+            if (cellText.includes(searchTerm)) {
+              found = true;
+              return false; // Salir del bucle each() internamente
+            }
+          });
+          if (found) {
             $(this).show();
           } else {
             $(this).hide();
           }
         });
       });
-    });   
+    });

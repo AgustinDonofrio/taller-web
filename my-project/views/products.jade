@@ -55,6 +55,8 @@ html
       .search-bar {
         width: 100%;
       }
+
+
   body
     .header
       img(src="/images/fondo3.png", alt='Food Saver Logo')
@@ -71,7 +73,7 @@ html
             a.nav-link(href='/products') Productos 
               span.sr-only (current)
           li.nav-item
-            a.nav-link(href='/') Comercios
+            a.nav-link(href='/stores') Comercios
 
         form.form-inline.my-2.my-lg-0.mx-auto(id='productFilterForm') 
           input.form-control.mr-sm-2.search-bar(type='search', placeholder='Search', aria-label='Search', id='productNameInput', style='width: 400px;')
@@ -96,7 +98,8 @@ html
           .product-item(id=`product${product._id}`) 
             a(href=`/products/product-details/${product._id}`) 
               img(src=product.photo, alt=product.name)
-            p= product.name
+            p.product-name= product.name
+            //p.product-price  #{product.price} $
             form(action=`/carrito/${product._id}`, method='POST')
               button.btn.btn-secondary(type='submit') Añadir al carrito
       else

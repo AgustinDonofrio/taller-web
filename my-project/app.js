@@ -15,6 +15,8 @@ var registerRouter = require('./routes/register.routes');
 var registerUserRouter = require('./routes/registerUser.routes');
 var registerCommerceRouter = require('./routes/registerCommerce.routes');
 var carritoRouter = require('./routes/carrito.routes');
+var storesRouter = require('./routes/stores.routes');
+
 
 const mongoose = require('mongoose');
 const uri = 'mongodb+srv://iciano:1YaZvNnAUWl2sbqv@taller-web.nuf7yyy.mongodb.net/myapp?retryWrites=true&w=majority&appName=taller-web';
@@ -68,6 +70,7 @@ app.use('/register', registerRouter);
 app.use('/registerUser', registerUserRouter);
 app.use('/registerCommerce', registerCommerceRouter);
 app.use('/carrito', carritoRouter);
+app.use('/stores', storesRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

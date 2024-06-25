@@ -24,36 +24,20 @@ html
         font-size: 2rem; /* Tamaño ajustado del texto */
         margin: 0; /* Eliminar margen para centrar verticalmente */
       }
-      .products {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 1rem;
-        padding: 1rem;
+      .jumbotron {
+        background-color: #f8f9fa; /* Color de fondo del jumbotron */
+        padding: 3rem;
+        margin-top: 2rem;
+        border-radius: 10px;
+        box-shadow: 0 0 15px rgba(0,0,0,0.1); /* Sombra suave */
       }
-      .product-item {
-        border: 1px solid #ddd;
-        border-radius: 5px;
-        overflow: hidden;
-        width: calc(25% - 1rem); /* 4 items per row */
-        text-align: center;
-        box-sizing: border-box;
-        padding: 1rem;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        align-items: center;
+      .jumbotron h2 {
+        font-size: 2.5rem; /* Tamaño del título */
+        margin-bottom: 1.5rem;
       }
-      .product-item img {
-        width: 100%;
-        height: auto;
-        margin-bottom: 1rem;
-      }
-      .product-item p {
-        margin: 0;
-      }
-      .search-bar {
-        width: 100%;
+      .jumbotron p {
+        font-size: 1.2rem; /* Tamaño del texto */
+        line-height: 1.6; /* Espaciado entre líneas */
       }
   body
     .header
@@ -71,10 +55,10 @@ html
             a.nav-link(href='/products') Productos 
               span.sr-only (current)
           li.nav-item
-            a.nav-link(href='/') Comercios
+            a.nav-link(href='/stores') Comercios
 
         form.form-inline.my-2.my-lg-0.mx-auto(id='productFilterForm') 
-          input.form-control.mr-sm-2.search-bar(type='search', placeholder='Search', aria-label='Search', id='productNameInput', style='width: 400px;')
+          input.form-control.mr-sm-2.search-bar(type='search', placeholder='Buscar', aria-label='Buscar', id='productNameInput', style='width: 400px;')
           button.btn.btn-outline-success.my-2.my-sm-0(type='button', id='filterButton') Buscar
 
         ul.navbar-nav.ml-auto
@@ -88,23 +72,15 @@ html
             a.nav-link(href='/carrito')
               button.btn.btn-success
                 i(class='fa fa-shopping-cart')
+        
+    br
+    .container
+      .jumbotron.text-center
+        h2 Bienvenido a Food Saver</h2>
+        p En Food Saver nos dedicamos a combatir el desperdicio de alimentos. Conectamos a comercios que tienen productos próximos a vencer con usuarios interesados en adquirirlos a precios reducidos. 
+        p ¡Ayúdanos a cuidar el medio ambiente mientras disfrutas de grandes ahorros!
 
-
-    script(src='https://code.jquery.com/jquery-3.3.1.slim.min.js')
-    script(src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js')
-    script(src='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js')
-    
-    script.
-      $(document).ready(function() {
-        $('#filterButton').click(function() {
-          var searchTerm = $('#productNameInput').val().toLowerCase();
-          $('.product-item').each(function() {
-            var productTitle = $(this).find('p').text().toLowerCase();
-            if (productTitle.includes(searchTerm)) {
-              $(this).show();
-            } else {
-              $(this).hide();
-            }
-          });
-        });
-      });
+  script(src='https://code.jquery.com/jquery-3.3.1.slim.min.js')
+  script(src='https://code.jquery.com/jquery-3.3.1.min.js')
+  script(src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js')
+  script(src='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js')
