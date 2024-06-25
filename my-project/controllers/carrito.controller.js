@@ -44,7 +44,12 @@ exports.addProduct = async (req, res) => {
             return res.status(404).json({ message: 'Producto no encontrado' });
         }
 
-        req.session.cart.push({ productId: productId, quantity: 1 });
+        const cartProductIndex = req.session.cart.findIndex(item => item.productId === productId);
+        if (cartProductIndex !== -1) {
+            req.session.cart[cartProductIndex].quantity += 1;
+        } else {
+            req.session.cart.push({ productId: productId, quantity: 1 });
+        }
 
         res.redirect('/products');
     } catch (error) {
@@ -52,6 +57,7 @@ exports.addProduct = async (req, res) => {
         res.status(500).json({ message: 'Error del servidor' });
     }
 };
+
 
 
 exports.confirmCart = async (req, res) => {
