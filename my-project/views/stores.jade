@@ -125,9 +125,9 @@ html
             each store in stores
               tr
                 td= store.name
-                td= store.address
+                td= store.address + ', ' + store.city + ', ' + store.country
                 td
-                  a(href=`#`, onclick=`mostrarMapa('${store.address}')`)
+                  a(href=`#`, onclick=`mostrarMapa('${store.address}', '${store.city}', '${store.country}')`)
                     button.btn.btn-primary(type='button')
                       i(class='bi bi-geo-alt')
       else
@@ -143,59 +143,58 @@ html
   script(src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js')
   script(src='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js')
   script(src='https://polyfill.io/v3/polyfill.min.js?features=default')
+
   script.
-        async function geocodeAddress(address) {
-            const url = `https://trueway-geocoding.p.rapidapi.com/Geocode?address=${encodeURIComponent(address)}&language=es`;
-            const options = {
-                method: 'GET',
-                headers: {
-                    'x-rapidapi-key': '9e767c90e5msh1d4fda8b8014521p1008bcjsnd2e17ea86c03',
-                    'x-rapidapi-host': 'trueway-geocoding.p.rapidapi.com'
-                }
-            };
-        
-            try {
-                const response = await fetch(url, options);
-                if (!response.ok) {
-                    throw new Error(`HTTP error! Status: ${response.status}`);
-                }
-                const data = await response.json();
-                return data;
-            } catch (error) {
-                console.error('Error fetching geocoding data:', error);
-                return null;
+    async function geocodeAddress(address) {
+        const url = `https://trueway-geocoding.p.rapidapi.com/Geocode?address=${encodeURIComponent(address)}&language=es`;
+        const options = {
+            method: 'GET',
+            headers: {
+                'x-rapidapi-key': '9e767c90e5msh1d4fda8b8014521p1008bcjsnd2e17ea86c03',
+                'x-rapidapi-host': 'trueway-geocoding.p.rapidapi.com'
             }
-        }
-        
-        async function mostrarMapa(address) {
-            try {
-                const geocodingData = await geocodeAddress(address);
-                if (geocodingData && geocodingData.results.length > 0) {
-                    const location = geocodingData.results[0].location;
-                    const coord = { lat: location.lat, lng: location.lng };
-        
-                    var map = new google.maps.Map(document.getElementById('map'), {
-                        zoom: 15,
-                        center: coord
-                    });
-                    var marker = new google.maps.Marker({
-                        position: coord,
-                        map: map
-                    });
-                    
-                    // Mostrar el contenedor del mapa si no está visible
-                    $('#map-container').show();
-                } else {
-                    console.error('No se encontraron resultados de geocodificación para la dirección:', address);
-                }
-            } catch (error) {
-                console.error('Error en la función mostrarMapa:', error);
+        };
+
+        try {
+            const response = await fetch(url, options);
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
             }
+            const data = await response.json();
+            return data;
+        } catch (error) {
+            console.error('Error fetching geocoding data:', error);
+            return null;
         }
+    }
 
-        function cerrarMapa() {
-          $('#map-container').hide(); // Ocultar el contenedor del mapa al cerrar
+    async function mostrarMapa(address, city, country) {
+        const fullAddress = `${address}, ${city}, ${country}`;
+        try {
+            const geocodingData = await geocodeAddress(fullAddress);
+            if (geocodingData && geocodingData.results.length > 0) {
+                const location = geocodingData.results[0].location;
+                const coord = { lat: location.lat, lng: location.lng };
+
+                var map = new google.maps.Map(document.getElementById('map'), {
+                    zoom: 15,
+                    center: coord
+                });
+                var marker = new google.maps.Marker({
+                    position: coord,
+                    map: map
+                });
+
+                // Mostrar el contenedor del mapa si no está visible
+                $('#map-container').show();
+            } else {
+                console.error('No se encontraron resultados de geocodificación para la dirección:', fullAddress);
+            }
+        } catch (error) {
+            console.error('Error en la función mostrarMapa:', error);
         }
+    }
 
-
-    
+    function cerrarMapa() {
+      $('#map-container').hide(); // Ocultar el contenedor del mapa al cerrar
+    }
