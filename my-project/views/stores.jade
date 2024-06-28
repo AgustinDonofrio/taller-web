@@ -125,9 +125,9 @@ html
             each store in stores
               tr
                 td= store.name
-                td= store.address + ', ' + store.city + ', ' + store.country
+                td= store.address + ', ' + store.city + ', ' + store.province
                 td
-                  a(href=`#`, onclick=`mostrarMapa('${store.address}', '${store.city}', '${store.country}')`)
+                  a(href=`#`, onclick=`mostrarMapa('${store.address}', '${store.city}', '${store.province}')`)
                     button.btn.btn-primary(type='button')
                       i(class='bi bi-geo-alt')
       else
@@ -168,8 +168,8 @@ html
         }
     }
 
-    async function mostrarMapa(address, city, country) {
-        const fullAddress = `${address}, ${city}, ${country}`;
+    async function mostrarMapa(address, city, province) {
+        const fullAddress = `${address}, ${city}, ${province}`;
         try {
             const geocodingData = await geocodeAddress(fullAddress);
             if (geocodingData && geocodingData.results.length > 0) {

@@ -41,6 +41,12 @@ const commerceSchema = new Schema({
         required: true,
         unique: true
     },
+    province:
+    {
+        type: String,
+        required: true,
+        unique: true
+    },
     country:
     {
         type: String,

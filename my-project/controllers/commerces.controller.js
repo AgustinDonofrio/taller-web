@@ -6,8 +6,8 @@ const Order = require('../models/order');
 // Crear un nuevo comercio
 exports.createCommerce = async (req, res) => {
     try {
-        const {name, password, email, address} = req.body;
-        const newCommerce = new Commerce({name, password, email, address});
+        const {name, password, email, address, postal_code, city, province, country} = req.body;
+        const newCommerce = new Commerce({name, password, email, address, postal_code, city, province, country});
         await newCommerce.save();
         res.redirect('/');
     } catch (error) {
