@@ -23,7 +23,25 @@ const commerceSchema = new Schema({
         unique: true,
         match: /.+@.+..+/
     },
-    adress:
+    address:
+    {
+        type: String,
+        required: true,
+        unique: true
+    },
+    postal_code:
+    {
+        type: Number,
+        required: true,
+        unique: true
+    },
+    city:
+    {
+        type: String,
+        required: true,
+        unique: true
+    },
+    country:
     {
         type: String,
         required: true,
@@ -35,7 +53,6 @@ const commerceSchema = new Schema({
         required: true,
         default: "seller"
     },
-
 })
 
 /*
