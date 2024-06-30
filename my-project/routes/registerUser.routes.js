@@ -2,12 +2,15 @@ const express = require('express');
 const router = express.Router();
 const usersController = require('../controllers/users.controller.js');
 
-// Renderizar el formulario de registro
+//router.get('/', usersController.renderRegisterUser);
+
+// Renderizar el formulario de registro con datos obtenidos de Google o Facebook
 router.get('/', (req, res) => {
-  res.render('registerUser');
+  const { email, firstName, lastName, username } = req.query;
+  res.render('registerUser', { email, firstName, lastName, username });
 });
 
-
+// Crear un nuevo usuario después de enviar el formulario
 router.post('/', usersController.createUser);
 
 module.exports = router;
