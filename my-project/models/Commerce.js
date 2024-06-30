@@ -53,6 +53,12 @@ const commerceSchema = new Schema({
         required: true,
         default: "seller"
     },
+    state: 
+    {
+        type: Boolean,
+        required: true,
+        default: false
+    },
 })
 
 /*

@@ -125,9 +125,9 @@ html
             each store in stores
               tr
                 td= store.name
-                td= store.address
+                td= `${store.address}, ${store.city}, ${store.country}`
                 td
-                  a(href=`#`, onclick=`mostrarMapa('${store.address}')`)
+                  a(href=`#`, onclick=`mostrarMapa('${store.address}', '${store.city}','${store.country}')`)
                     button.btn.btn-primary(type='button')
                       i(class='bi bi-geo-alt')
       else
@@ -144,8 +144,8 @@ html
   script(src='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js')
   script(src='https://polyfill.io/v3/polyfill.min.js?features=default')
   script.
-        async function geocodeAddress(address) {
-            const url = `https://trueway-geocoding.p.rapidapi.com/Geocode?address=${encodeURIComponent(address)}&language=es`;
+        async function geocodeAddress(address, city, country) {
+            const url = `https://trueway-geocoding.p.rapidapi.com/Geocode?address=${encodeURIComponent(address, city, country)}&language=es`;
             const options = {
                 method: 'GET',
                 headers: {
@@ -167,9 +167,9 @@ html
             }
         }
         
-        async function mostrarMapa(address) {
+        async function mostrarMapa(address, city, country) {
             try {
-                const geocodingData = await geocodeAddress(address);
+                const geocodingData = await geocodeAddress(address, city, country);
                 if (geocodingData && geocodingData.results.length > 0) {
                     const location = geocodingData.results[0].location;
                     const coord = { lat: location.lat, lng: location.lng };

@@ -59,3 +59,22 @@ exports.getCompras = async (req, res) => {
 
 
 
+exports.updateState = async (req, res) => {
+    try {
+        const { commerceId } = req.params;
+        const commerce = await Commerce.findById(commerceId);
+        if (!commerce) {
+            return res.status(404).json({ message: "Commerce not found" });
+        }
+        commerce.state = true;
+        await commerce.save();
+
+        res.status(200).json({ message: "State updated successfully" });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: error.message });
+    }
+};
+
+
+
