@@ -26,7 +26,7 @@ html
       }
       .products {
         display: flex;
-        flex-wrap: wrap;
+        /*flex-wrap: wrap;*/
         justify-content: center;
         gap: 1rem;
         padding: 1rem;
@@ -36,7 +36,7 @@ html
         border-radius: 5px;
         overflow: hidden;
         width: calc(25% - 1rem); /* 4 items per row */
-        text-align: center;
+        /*text-align: center;*/
         box-sizing: border-box;
         padding: 1rem;
         display: flex;
@@ -54,6 +54,16 @@ html
       }
       .search-bar {
         width: 100%;
+      }
+      .product-name{
+        font-size: 1.1rem;
+        font-family: "Arial", sans-serif;
+      }
+      .product-price{
+        font-weight: bold;
+      }
+      .btn.btn-success{
+        border-radius: 5px;
       }
 
 
@@ -88,20 +98,28 @@ html
 
           li.nav-item
             a.nav-link(href='/carrito')
-              button.btn.btn-success
-                i(class='fa fa-shopping-cart')
+              button.btn.btn-success(type='button', id='cartButton')
+                span#cartIcon
+                  i(class='fa fa-shopping-cart')
 
    
     main.products
       if products && products.length
         each product in products
-          .product-item(id=`product${product._id}`) 
+          .product-item(id=`product${product._id}`)
+             
             a(href=`/products/product-details/${product._id}`) 
               img(src=product.photo, alt=product.name)
-            p.product-name= product.name
-            //p.product-price  #{product.price} $
-            form(action=`/carrito/${product._id}`, method='POST')
-              button.btn.btn-secondary(type='submit') Añadir al carrito
+
+            p.product-name #{product.name}
+            
+            p.product-price $#{product.price}
+            
+            form(action=`/carrito/${product._id}`, method='POST', id='addToCartForm')
+              button.btn.btn-success(type='submit') Agregar al carrito
+            p.product-expiration(style='color: #838383; text-align: left;') vto: #{product.caduceDate.toLocaleDateString('es-AR', {day: '2-digit', month: '2-digit', year: 'numeric',})}
+                
+                
       else
         p No hay productos disponibles
 
