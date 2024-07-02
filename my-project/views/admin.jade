@@ -5,14 +5,27 @@ html(lang='en')
     meta(charset='UTF-8')
     meta(name='viewport', content='width=device-width, initial-scale=1')
     link(rel='stylesheet', href='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css')
-    link(rel='stylesheet' href='https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css')
-    link(rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.0/font/bootstrap-icons.min.css')
+    link(rel='stylesheet', href='https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css')
+    link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.0/font/bootstrap-icons.min.css')
     style.
       .header {
         background-color: #4CAF50;
         color: white;
         padding: 1rem 0;
         text-align: center;
+        position: relative; /* Para posicionar el botón de cerrar sesión */
+      }
+      .logout-link {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        color: white; /* Color del texto */
+        background-color: #99d98c; /* Fondo del botón */
+        padding: 0.5rem 1rem; /* Espaciado interno */
+        border-radius: 5px; /* Bordes redondeados */
+        text-decoration: none; /* Sin subrayado */
+        font-size: 1rem; /* Tamaño de la fuente */
+        font-weight: bold; /* Negrita */
       }
       .products {
         padding: 1rem;
@@ -51,21 +64,21 @@ html(lang='en')
         display: inline-block;
         margin-right: 5px; /* Agregar un margen entre los botones */
       }
+      .btn-small {
+        padding: 0.4rem 0.6rem;
+        font-size: 0.8rem;
+      }
+
   body
     .header
       h1 Administrador
 
-    nav.navbar.navbar-expand-lg.navbar-light.bg-light
-      button.navbar-toggler(type='button', data-toggle='collapse', data-target='#navbarTogglerDemo03', aria-controls='navbarTogglerDemo03', aria-expanded='false', aria-label='Toggle navigation')
-        span.navbar-toggler-icon
+      a.logout-link(href='/')
+        i.bi.bi-box-arrow-right
 
-      .collapse.navbar-collapse#navbarTogglerDemo03     
-        ul.navbar-nav.ml-auto
-          li.nav-item.dropdown
-            .dropdown-menu.dropdown-menu-right(aria-labelledby='navbarDropdown')
-              a.dropdown-item(href='/') Cerrar Sesión
+  
 
-   main.commerces
+    main.commerces
       if commerces && commerces.length
         table.table.table-striped
           thead
@@ -87,15 +100,17 @@ html(lang='en')
                 td.editable-field(data-field='country')= commerce.country
                 td.editable-field(data-field='postal_code')= commerce.postal_code
                 td.action-buttons
-                  form(action=`/admin/${commerce._id}`, method='POST')
-                    button.btn.btn-success(type='submit') ✓                  
-                  form(action=`/admin/${commerce._id}?_method=DELETE`, method='POST', style='display:inline;')
-                    button.btn.btn-danger(type='submit')
+                  form(action='/admin/update-state/' + commerce._id + '?_method=PUT', method='POST')
+                    button.btn.btn-success.btn-small(type='submit')
+                      i(class='bi bi-check')
+                  form(action='/admin/' + commerce._id + '?_method=DELETE', method='POST', style='display:inline;')
+                    button.btn.btn-danger.btn-small(type='submit')
                       i(class='bi bi-trash')
-                  button.btn.btn-secondary.edit-btn(type='button')
-                    i(class='bi bi-pencil-square') 
+                  button.btn.btn-secondary.edit-btn.btn-small(type='button')
+                    i(class='bi bi-pencil-square')
       else
         p No hay comercios disponibles
+
 
 
   script(src='https://code.jquery.com/jquery-3.3.1.slim.min.js')
@@ -156,8 +171,12 @@ html(lang='en')
 
         // Mostrar botones de Guardar y Cancelar
         tableRow.find('.action-buttons').append(`
-          <button class="btn btn-primary save-btn" type="button">Guardar</button>
-          <button class="btn btn-secondary cancel-btn" type="button">Cancelar</button>
+          <button class="btn btn-primary btn-sm save-btn" type="button">
+            <i class="bi bi-check-lg"></i>
+          </button>
+          <button class="btn btn-secondary btn-sm cancel-btn" type="button">
+            <i class="bi bi-x-lg"></i>
+          </button>
         `);
 
         $(this).hide(); // Ocultar el botón Editar
@@ -183,7 +202,7 @@ html(lang='en')
 
       $(document).on('click', '.save-btn', function() {
         var tableRow = $(this).closest('tr');
-        var productId = tableRow.data('product-id').replace(/['"]+/g, '');
+        var commerceId = tableRow.data('commerce-id').replace(/['"]+/g, '');
         var updatedData = {};
 
         tableRow.find('.editable-field').each(function() {
@@ -192,11 +211,11 @@ html(lang='en')
           updatedData[fieldName] = fieldValue;
         });
 
-        console.log('productId:', productId);
+        console.log('commerceId:', commerceId);
         console.log('updatedData:', updatedData);
 
         $.ajax({
-          url: `/commerces/${productId}`,
+          url: `/admin/${commerceId}`,
           method: 'PUT',
           data: $.param(updatedData),
           contentType: 'application/x-www-form-urlencoded',

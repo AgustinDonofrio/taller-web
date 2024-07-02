@@ -23,7 +23,7 @@ exports.deleteCommerce = async (req, res) => {
     try {
         const { commerceId } = req.params;
         await Commerce.findByIdAndDelete(commerceId);
-        res.redirect('/commerces');
+        res.redirect('/admin');
     } catch (error) {
         res.status(500).json({message: error.message});        
     }    

@@ -33,25 +33,21 @@ const commerceSchema = new Schema({
     {
         type: Number,
         required: true,
-        unique: true
     },
     city:
     {
         type: String,
         required: true,
-        unique: true
     },
     province:
     {
         type: String,
         required: true,
-        unique: true
     },
     country:
     {
         type: String,
         required: true,
-        unique: true
     },
     idRole: 
     {

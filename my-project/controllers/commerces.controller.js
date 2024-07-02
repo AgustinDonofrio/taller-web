@@ -68,8 +68,7 @@ exports.updateState = async (req, res) => {
         }
         commerce.state = true;
         await commerce.save();
-
-        res.status(200).json({ message: "State updated successfully" });
+        res.redirect('/admin');
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: error.message });

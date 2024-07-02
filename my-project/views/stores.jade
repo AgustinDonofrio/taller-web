@@ -195,39 +195,35 @@ html
             }
             const data = await response.json();
             return data;
-        } catch (error) {
-            console.error('Error fetching geocoding data:', error);
-            return null;
-        }
-    }
+          } 
 
-    async function mostrarMapa(address, city, province) {
-        const fullAddress = `${address}, ${city}, ${province}`;
-        try {
-            const geocodingData = await geocodeAddress(fullAddress);
-            if (geocodingData && geocodingData.results.length > 0) {
-                const location = geocodingData.results[0].location;
-                const coord = { lat: location.lat, lng: location.lng };
+        async function mostrarMapa(address, city, province) {
+            const fullAddress = `${address}, ${city}, ${province}`;
+            try {
+                const geocodingData = await geocodeAddress(fullAddress);
+                if (geocodingData && geocodingData.results.length > 0) {
+                    const location = geocodingData.results[0].location;
+                    const coord = { lat: location.lat, lng: location.lng };
 
-                var map = new google.maps.Map(document.getElementById('map'), {
-                    zoom: 15,
-                    center: coord
-                });
-                var marker = new google.maps.Marker({
-                    position: coord,
-                    map: map
-                });
+                    var map = new google.maps.Map(document.getElementById('map'), {
+                        zoom: 15,
+                        center: coord
+                    });
+                    var marker = new google.maps.Marker({
+                        position: coord,
+                        map: map
+                    });
 
-                // Mostrar el contenedor del mapa si no está visible
-                $('#map-container').show();
-            } else {
-                console.error('No se encontraron resultados de geocodificación para la dirección:', fullAddress);
+                    // Mostrar el contenedor del mapa si no está visible
+                    $('#map-container').show();
+                } else {
+                    console.error('No se encontraron resultados de geocodificación para la dirección:', fullAddress);
+                }
+            } catch (error) {
+                console.error('Error en la función mostrarMapa:', error);
             }
-        } catch (error) {
-            console.error('Error en la función mostrarMapa:', error);
         }
-    }
 
-    function cerrarMapa() {
-      $('#map-container').hide(); // Ocultar el contenedor del mapa al cerrar
-    }
+        function cerrarMapa() {
+          $('#map-container').hide(); // Ocultar el contenedor del mapa al cerrar
+        }

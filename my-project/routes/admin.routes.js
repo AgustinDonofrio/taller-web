@@ -3,9 +3,10 @@ const router = express.Router();
 const admin = require('../controllers/admin.controller.js');
 const commerce = require('../controllers/commerces.controller.js');
 
+
 router.get('/', admin.getCommerces);
+router.put('/:commerceId', admin.updateCommerce);
 router.put('/update-state/:commerceId', commerce.updateState);
-router.put('/:commercetId', admin.updateCommerce);
 router.delete('/:commerceId', admin.deleteCommerce);
 
 
