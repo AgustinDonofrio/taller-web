@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const bcrypt = require('bcrypt');
 
-// Defino el esquema del usuario
 const userSchema = new Schema({
   email: {
     type: String,
@@ -72,8 +72,24 @@ userSchema.pre('save', function(next) {
   next();
 });
 
-// Creo el modelo del producto basado en el esquema
-const User = mongoose.model('user', userSchema);
+// Middleware para hashear la contraseña antes de guardarla
+userSchema.pre('save', async function (next) {
+  if (!this.isModified('password')) {
+      return next();
+  }
+
+  const salt = await bcrypt.genSalt(10);
+  this.password = await bcrypt.hash(this.password, salt);
+  next();
+});
+
+// Método para comparar contraseñas
+userSchema.methods.comparePassword = function(candidatePassword) {
+  return bcrypt.compare(candidatePassword, this.password);
+};
+
+// Creo el modelo del usuario basado en el esquema
+const User = mongoose.model('User', userSchema);
 
 // Exporto el modelo
 module.exports = User;

@@ -6,6 +6,9 @@ html(lang='en')
     title Registrarse - Food Saver
     link(rel='stylesheet', href='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css')
     style.
+      .text-grey {
+        color: #757575;
+      }
       .header {
         background-color: #4CAF50;
         color: white;
@@ -63,7 +66,8 @@ html(lang='en')
 
       hr
 
-      p ¿Ya tienes una cuenta?
-      a.btn.btn-outline-success.btn-block(href='/') Iniciar Sesión
+      p.text-center.text-grey
+        | ¿Ya tienes una cuenta? 
+        a.text-grey-link(href='/') Iniciar sesión aquí
 
     script(src='https://code.jquery.com/jquery-3.3.1.slim.min.js')

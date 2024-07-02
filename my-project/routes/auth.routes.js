@@ -1,11 +1,12 @@
 const express = require('express');
 const router = express.Router();
 const passport = require('passport');
+const authController = require('../controllers/auth.controller');
 
 // Ruta para Google OAuth
-router.get('/auth/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
+router.get('/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
 
-router.get('/auth/google/callback', passport.authenticate('google', {
+router.get('/google/callback', passport.authenticate('google', {
   failureRedirect: '/login'
 }), (req, res) => {
   req.session.oauthUser = req.user;
@@ -13,9 +14,9 @@ router.get('/auth/google/callback', passport.authenticate('google', {
 });
 
 // Ruta para Facebook OAuth
-router.get('/auth/facebook', passport.authenticate('facebook', { scope: ['email'] }));
+router.get('/facebook', passport.authenticate('facebook', { scope: ['email'] }));
 
-router.get('/auth/facebook/callback', passport.authenticate('facebook', {failureRedirect: '/login'}), 
+router.get('/facebook/callback', passport.authenticate('facebook', {failureRedirect: '/login'}), 
   (req, res) => {
     req.session.oauthUser = req.user;
   res.redirect('/register');
@@ -23,10 +24,17 @@ router.get('/auth/facebook/callback', passport.authenticate('facebook', {failure
 
 
 
-router.get('/auth/facebook/callback',
+router.get('/facebook/callback',
   passport.authenticate('facebook', { failureRedirect: '/' }),
   (req, res) => {
     res.redirect(`/registerUser?email=${req.user.email}&firstName=${req.user.firstName}&lastName=${req.user.lastName}&username=${req.user.username}`);
   });
+
+/*
+// Ruta para iniciar sesión como usuario
+router.post('/login/user', authController.loginUser);
+
+// Ruta para iniciar sesión como comercio
+router.post('/login/commerce', authController.loginCommerce);*/
 
 module.exports = router;

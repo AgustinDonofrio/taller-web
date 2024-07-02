@@ -7,9 +7,6 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var session = require('express-session');
 var methodOverride = require('method-override');
-var passport = require('./passport-config');
-var authRouter = require('./routes/auth.routes');
-
 
 var indexRouter = require('./routes/index');
 var productsRouter = require('./routes/products.routes');
@@ -20,6 +17,8 @@ var registerUserRouter = require('./routes/registerUser.routes');
 var registerCommerceRouter = require('./routes/registerCommerce.routes');
 var carritoRouter = require('./routes/carrito.routes');
 var storesRouter = require('./routes/stores.routes');
+var passport = require('./passport-config');
+var authRouter = require('./routes/auth.routes');
 
 
 const mongoose = require('mongoose');
@@ -70,7 +69,8 @@ app.use('/registerUser', registerUserRouter);
 app.use('/registerCommerce', registerCommerceRouter);
 app.use('/carrito', carritoRouter);
 app.use('/stores', storesRouter);
-app.use('/', authRouter);
+app.use('/auth', authRouter);
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

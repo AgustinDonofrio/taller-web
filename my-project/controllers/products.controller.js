@@ -39,7 +39,6 @@ exports.createProduct = async (req, res) => {
     }
 };
 
-
 // Actualizar un producto por su id
 exports.updateProduct = async (req, res) => {
     try {
@@ -51,7 +50,6 @@ exports.updateProduct = async (req, res) => {
     }    
 };
 
-// Borrar un producto por su id. (en Postman - http://localhost:3000/api/products/"id del producto")
 exports.deleteProduct = async (req, res) => {
     try {
         const { productId } = req.params;
