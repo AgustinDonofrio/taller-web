@@ -32,39 +32,68 @@ html
         padding: 1rem;
       }
       .product-item {
-        border: 1px solid #ddd;
+        border: 1.5px solid #ddd;
         border-radius: 5px;
         overflow: hidden;
         width: calc(25% - 1rem); /* 4 items per row */
-        /*text-align: center;*/
         box-sizing: border-box;
-        padding: 1rem;
+        padding: 0.5rem;
         display: flex;
         flex-direction: column;
-        justify-content: space-between;
         align-items: center;
+        position: relative; /* Para posicionar el botón de manera absoluta */
       }
+
       .product-item img {
         width: 100%;
         height: auto;
-        margin-bottom: 1rem;
+        margin-bottom: 6rem; /* Espacio entre la imagen y el siguiente elemento */
       }
-      .product-item p {
-        margin: 0;
+
+      .product-name {
+        font-size: 1.1rem;
+        font-family: "Arial", sans-serif;
+        margin-bottom: 0.5rem; /* Espacio entre el nombre del producto y el siguiente elemento */
+        position: absolute;
+        bottom: 3rem; /* Distancia desde abajo */
+        left: 2rem; /* Distancia desde la derecha */
+      }
+
+      .product-price {
+        font-weight: bold;
+        margin-bottom: 1.rem; /* Espacio entre el precio y el siguiente elemento */
+        position: absolute;
+        bottom: 3rem; /* Distancia desde abajo */
+        right: 2rem; /* Distancia desde la derecha */
       }
       .search-bar {
         width: 100%;
       }
-      .product-name{
-        font-size: 1.1rem;
-        font-family: "Arial", sans-serif;
+      .product-expiration {
+        margin-bottom: 0.5rem; /* Espacio entre la fecha de vencimiento y el siguiente elemento */
+        position: absolute;
+        bottom: 1rem; /* Distancia desde abajo */
+        left: 3rem; /* Distancia desde la derecha */
       }
-      .product-price{
-        font-weight: bold;
-      }
-      .btn.btn-success{
+      .btn.btn-success {
         border-radius: 5px;
+        position: absolute;
+        bottom: 1rem; /* Distancia desde abajo */
+        right: 2rem; /* Distancia desde la derecha */
       }
+      .btn.btn-success {
+        border-radius: 5px;
+        position: absolute;
+        bottom: 1rem; /* Distancia desde abajo */
+        right: 2rem; /* Distancia desde la derecha */
+      }
+      .btn.btn-success1 {
+        background-color: #28a745; /* Color verde */
+        padding: 0.5rem 1rem; /* Ajuste del padding para dar espacio al contenido del botón */
+        color: white; /* Color del texto */
+        text-decoration: none; /* Para evitar el subrayado si se usa como enlace */
+      }
+
 
 
   body
@@ -98,7 +127,7 @@ html
 
           li.nav-item
             a.nav-link(href='/carrito')
-              button.btn.btn-success(type='button', id='cartButton')
+              button.btn.btn-success1(type='button', id='cartButton')
                 span#cartIcon
                   i(class='fa fa-shopping-cart')
 
@@ -106,19 +135,25 @@ html
     main.products
       if products && products.length
         each product in products
-          .product-item(id=`product${product._id}`)
-             
-            a(href=`/products/product-details/${product._id}`) 
-              img(src=product.photo, alt=product.name)
+          - var expirationDate = new Date(product.caduceDate)
+          - var today = new Date()
+          if expirationDate > today
+            .product-item(id=`product${product._id}`)
+              
+              a(href=`/products/product-details/${product._id}`) 
+                img(src=product.photo, alt=product.name)
 
-            p.product-name #{product.name}
-            
-            p.product-price $#{product.price}
-            
-            form(action=`/carrito/${product._id}`, method='POST', id='addToCartForm')
-              button.btn.btn-success(type='submit') Agregar al carrito
-            p.product-expiration(style='color: #838383; text-align: left;') vto: #{product.caduceDate.toLocaleDateString('es-AR', {day: '2-digit', month: '2-digit', year: 'numeric',})}
-                
+              p.product-name #{product.name}
+              
+              p.product-price $#{product.price}
+              
+              form(action=`/carrito/${product._id}`, method='POST', id='addToCartForm')
+                button.btn.btn-success(type='submit') +
+              
+              - var expirationDate = new Date(product.caduceDate)
+              - expirationDate.setMinutes(expirationDate.getMinutes() + expirationDate.getTimezoneOffset()) //Ignorar la zona horaria de la fecha
+              p.product-expiration(style='color: #838383; text-align: left;') vto: #{expirationDate.toLocaleDateString('es-AR', {day: '2-digit', month: '2-digit', year: 'numeric',})}
+                  
                 
       else
         p No hay productos disponibles

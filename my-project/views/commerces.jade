@@ -49,6 +49,9 @@ html(lang='en')
         display: inline-block;
         margin-right: 5px; /* Agregar un margen entre los botones */
       }
+      .table-danger{
+        background-color: #f8d7da !important;
+      }
   body
     .header
       h1 Bienvenido Comerciante
@@ -94,15 +97,18 @@ html(lang='en')
               th Acciones
           tbody
             each product in products
-              tr(data-product-id=product._id)
+              - var expirationDate = new Date(product.caduceDate)
+              - var today = new Date()
+              tr(data-product-id=product._id, class=expirationDate < today ? 'table-danger' : '')
                 td: img(src=product.photo, alt=product.name, width="50")
                 td.editable-field(data-field='name')= product.name
                 td.editable-field(data-field='price')= product.price
                 td.editable-field(data-field='stock')= product.stock
                 td.editable-field(data-field='description')= product.description
                 td.action-buttons
-                  button.btn.btn-secondary.edit-btn(type='button') Editar
-                  | &nbsp; <!-- Espacio entre botones -->
+                  if expirationDate > today
+                    button.btn.btn-secondary.edit-btn(type='button') Editar
+                    | &nbsp; <!-- Espacio entre botones -->
                   form(action=`/commerces/${product._id}?_method=DELETE`, method='POST', style='display:inline;')
                     button.btn.btn-danger(type='submit') Eliminar
       else
