@@ -1,4 +1,6 @@
 const Product = require('../models/Product.js');
+const fs = require('fs');
+const path = require('path');
 
 // Obetener todos los productos
 exports.getProducts = async (req, res) => {
@@ -55,6 +57,19 @@ exports.updateProduct = async (req, res) => {
 exports.deleteProduct = async (req, res) => {
     try {
         const { productId } = req.params;
+        const product = await Product.findById(productId);
+        if (!product) {
+            return res.status(404).json({ message: 'Producto no encontrado' });
+        }
+        // Obtener la ruta completa de la imagen a eliminar
+        const imagePath = path.join(__dirname, '../public', product.photo);
+        // Verificar si el archivo existe antes de intentar eliminarlo
+        if (fs.existsSync(imagePath)) {
+            // Eliminar el archivo
+            fs.unlinkSync(imagePath);
+            console.log(`Archivo ${imagePath} eliminado exitosamente.`);
+        }
+        // Eliminar el producto de la base de datos
         await Product.findByIdAndDelete(productId);
         res.redirect('/commerces');
     } catch (error) {
