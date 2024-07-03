@@ -172,19 +172,21 @@ html(lang='en')
     });
 
   script.
-    $(document).ready(function() {
-      $('#filterButton').click(function() {
+    $('#filterButton').click(function() {
         var searchTerm = $('#productNameInput').val().toLowerCase();
-        $('.product-item').each(function() {
-          var productTitle = $(this).find('p').text().toLowerCase();
-          if (productTitle.includes(searchTerm)) {
+        $('tbody tr').each(function() {
+          var productName = $(this).find('[data-field="name"]').text().toLowerCase();
+          var productPrice = $(this).find('[data-field="price"]').text().toLowerCase();
+          var productStock = $(this).find('[data-field="stock"]').text().toLowerCase();
+          var productDescription = $(this).find('[data-field="description"]').text().toLowerCase();
+          if (productName.includes(searchTerm) || productPrice.includes(searchTerm) || productStock.includes(searchTerm) || productDescription.includes(searchTerm)) {
             $(this).show();
           } else {
             $(this).hide();
           }
         });
       });
-    });
+      
   
   script.
     $(document).ready(function() {
@@ -269,3 +271,4 @@ html(lang='en')
         tableRow.find('.btn-danger').show();
       });
     });
+
