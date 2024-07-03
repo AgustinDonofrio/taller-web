@@ -1,6 +1,8 @@
 const Product = require('../models/Product.js');
 const fs = require('fs');
 const path = require('path');
+const Commerce = require('../models/Commerce');
+const User = require('../models/User');
 
 // Obetener todos los productos
 exports.getProducts = async (req, res) => {
@@ -11,6 +13,40 @@ exports.getProducts = async (req, res) => {
         res.status(500).json({message: error.message});
     }
 };
+
+// Obtener todos los productos de la ciudad del usuario
+exports.getProductsByCity = async (req, res) => {
+    try {
+        // Verifica si req.session.user está definido
+        if (!req.session.user) {
+            return res.status(401).send('Usuario no autenticado');
+        }
+
+        
+        const userId = req.session.user.id;
+        console.log('ID del usuario:', userId);
+        
+        const user = await User.findById(userId);
+
+        if (!user) {
+            return res.status(404).send('Usuario no encontrado');
+        }
+
+        const products = await Product.find()
+            .populate({
+                path: 'commerce',
+                match: { city: user.city }
+            })
+            .exec();
+
+        const filteredProducts = products.filter(product => product.commerce !== null);
+
+        res.render('products', { products: filteredProducts, user: req.session.user });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
 
 
 exports.getProduct = async (req, res) => {

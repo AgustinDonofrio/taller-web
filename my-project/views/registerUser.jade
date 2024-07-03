@@ -84,6 +84,26 @@ html(lang='en')
           label(for='dateOfBirth') Fecha de Nacimiento
           input#dateOfBirth.form-control(type='date', name='dateOfBirth')
 
+        .form-group
+          label(for='address') Dirección
+          input#address.form-control(type='text', name='address', placeholder='Dirección', required)
+
+        .form-group
+          label(for='postal_code') Código postal
+          input#postal_code.form-control(type='number', name='postal_code', placeholder='Código postal', required)
+        
+        .form-group
+          label(for='city') Ciudad
+          input#city.form-control(type='text', name='city', placeholder='Ciudad', required)
+
+        .form-group
+          label(for='province') Provincia
+          input#province.form-control(type='text', name='province', placeholder='Provincia', required)
+        
+        .form-group
+          label(for='country') País
+          input#country.form-control(type='text', name='country', placeholder='País', required)
+
         button.btn.btn-success.btn-block(type='submit') Registrarse
 
       hr
