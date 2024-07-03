@@ -26,8 +26,10 @@ exports.getProduct = async (req, res) => {
 
 exports.createProduct = async (req, res) => {
     try {
-        const { name, price, caduceDate, stock, description, photo } = req.body;
+        const { name, price, caduceDate, stock, description} = req.body;
+        console.log('Datos recibidos:', req.body);
         const commerceId = req.session.uCommerce.id;
+        const photo = '/images/' + req.file.filename; // Ruta de la foto
         const newProduct = new Product({
             name, price, caduceDate, stock, description, commerce: commerceId, photo
         });

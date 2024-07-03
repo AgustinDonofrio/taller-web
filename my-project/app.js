@@ -7,7 +7,7 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var session = require('express-session');
 var methodOverride = require('method-override');
-//var multer = require('multer');
+var multer = require('multer');
 
 var indexRouter = require('./routes/index');
 var productsRouter = require('./routes/products.routes');
@@ -28,6 +28,7 @@ const uri = 'mongodb+srv://iciano:1YaZvNnAUWl2sbqv@taller-web.nuf7yyy.mongodb.ne
 
 
 var app = express();
+
 
 // Conectar a la base de datos
 (async () => {
@@ -56,6 +57,8 @@ app.use((req, res, next) => {
   res.locals.user = req.session.user || null;
   next();
 });
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

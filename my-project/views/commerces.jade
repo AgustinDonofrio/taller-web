@@ -117,7 +117,7 @@ html(lang='en')
     .add-product-form
       h2 Agregar Producto
 
-      form(action='/commerces', method='POST')
+      form(action='/commerces', method='POST', enctype='multipart/form-data')
         .form-group
           label(for='name') Nombre del Producto
           input#name.form-control(type='text', name='name', placeholder='Nombre del Producto', required)
@@ -140,7 +140,7 @@ html(lang='en')
           
         .form-group
           label(for='photo') Foto del Producto
-          input#photo.form-control(type='text', name='photo', required)
+          input#photo.form-control(type='file', name='photo', required)
           
         button.btn.btn-primary(type='submit') Agregar Producto
 
