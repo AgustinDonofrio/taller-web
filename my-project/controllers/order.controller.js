@@ -1,5 +1,5 @@
 const Product = require('../models/Product.js');
-const Order = require('../models/order.js');
+const Order = require('../models/Order.js');
 
 
 exports.deleteOrder = async (req, res) => {
