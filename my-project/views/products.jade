@@ -150,18 +150,28 @@ html
               button.btn.btn-success1(type='button', id='cartButton')
                 span#cartIcon
                   i(class='fa fa-shopping-cart')
+<<<<<<< HEAD
   
 
 
 
+=======
+                  
+>>>>>>> de43743051677d33540295c4863c8ff6fdd059a6
     main.products
       .filters
         .filter-group
           p.filter-title Tipo de producto
+<<<<<<< HEAD
           each type in ['Todos', 'Lacteos y huevos', 'Frutas y verduras', 'Carnes y Pescados', 'Panadería y Pastelería', 'Bebidas', 'Alimentos Congelados', 'Alimentos Secos y Enlatados', 'Snacks y Dulces', 'Condimentos y Salsas']
             - var isActive = (selectedType === type || (!selectedType && type === 'Todos')) ? 'active' : ''
             a.filter-option(class=isActive, href=`/products?type=${type === 'Todos' ? '' : type}`) #{type}
 
+=======
+          each type in ['Todos', 'Lácteos y Huevos', 'Frutas y Verduras', 'Carnes y Pescados', 'Panadería y Pastelería', 'Bebidas', 'Alimentos Congelados', 'Alimentos Secos y Enlatados', 'Snacks y Dulces', 'Condimentos y Salsas', 'Aceites y Vinagres', 'Tés y Cafés', 'Mi ciudad']
+            - var isActive = (selectedType === type || (!selectedType && type === 'Todos')) ? 'active' : ''
+            a.filter-option(class=isActive, href=`/products?type=${type === 'Todos' ? '' : type}`) #{type}
+>>>>>>> de43743051677d33540295c4863c8ff6fdd059a6
 
       .product-list
         if products && products.length

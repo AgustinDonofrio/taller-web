@@ -131,7 +131,7 @@ html(lang='en')
         .form-group
           label(for='type') Tipo
           .d-flex.flex-wrap
-            each type in ['frutas', 'verduras', 'lácteos', 'huevos', 'carnes', 'pollo', 'pescados y mariscos', 'panaderia y pasteleria', 'bebidas', 'congelados', 'enlatados', 'pastas', 'arroces', 'cereales', 'snacks y dulces', 'condimentos y salsas', 'aceites y vinagres', 'aderezos', 'harinas', 'azúcar', 'levadura', 'mezclas para hornear', 'mermeladas y miel', 'tés y cafés']
+            each type in ['lácteos', 'huevos', 'frutas', 'verduras', 'carnes', 'pollo', 'pescados y mariscos', 'panaderia', 'pasteleria', 'harina', 'levadura', 'mezclas para hornear', 'bebidas', 'congelados', 'enlatados', 'pastas', 'arroces', 'snacks', 'cereales','dulces', 'mermeladas', 'miel', 'azúcar', 'condimentos', 'salsas', 'aderezos', 'aceite', 'vinagre', 'té', 'café']
               .form-check.mx-2.mb-2
                 input.form-check-input(type='checkbox', id=type, name='type[]', value=type)
                 label.form-check-label(for=type)= type

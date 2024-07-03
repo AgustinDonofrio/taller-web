@@ -63,6 +63,26 @@ const userSchema = new Schema({
   isOAuth: {
     type: Boolean,
     default: false // Campo para indicar si es un usuario OAuth
+  },
+  address: {
+    type: String,
+    required: false,
+  },
+  postal_code: {
+      type: Number,
+      required: false,
+  },
+  city: {
+      type: String,
+      required: false,
+  },
+  province: {
+      type: String,
+      required: false,
+  },
+  country: {
+      type: String,
+      required: false,
   }
 });
 
