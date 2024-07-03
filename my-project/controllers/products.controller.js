@@ -2,16 +2,59 @@ const Product = require('../models/Product.js');
 const fs = require('fs');
 const path = require('path');
 
-// Obetener todos los productos
+// Obtener todos los productos con filtros
 exports.getProducts = async (req, res) => {
     try {
-        const products = await Product.find();
-        res.render('products', { products, user: req.session.user });
+        const { type } = req.query;
+        const filter = {};
+
+        if (type) {
+            switch (type) {
+                case 'Lácteos y Huevos':
+                    filter.type = { $in: ['lácteos', 'huevos'] };
+                    break;
+                case 'Frutas y Verduras':
+                    filter.type = { $in: ['frutas', 'verduras'] };
+                    break;
+                case 'Carnes y Pescados':
+                    filter.type = { $in: ['carnes', 'pollo', 'pescados y mariscos'] };
+                    break;
+                case 'Panadería y Pastelería':
+                    filter.type = { $in: ['panaderia', 'pasteleria', 'harina', 'levadura', 'mezclas para hornear'] };
+                    break;
+                case 'Bebidas':                  
+                    filter.type = { $in: ['bebidas'] };
+                    break;
+                case 'Alimentos Congelados':
+                    filter.type = { $in: ['congelados'] };
+                    break;
+                case 'Alimentos Secos y Enlatados':
+                    filter.type = { $in: ['enlatados', 'pastas', 'arroces',] };
+                    break;
+                case 'Snacks y Dulces':
+                    filter.type = { $in: ['snacks', 'cereales', 'dulces', 'mermeladas', 'miel', 'azúcar'] };
+                    break;
+                case 'Condimentos y Salsas':
+                    filter.type = { $in: ['condimentos', 'salsas', 'aderezos'] };
+                    break;
+                case 'Aceites y Vinagres':
+                    filter.type = { $in: ['aceite', 'vinagre'] };
+                    break;
+                case 'Tés y Cafés':
+                    filter.type = { $in: ['té', 'café'] };
+                    break;
+                default:
+                    filter.type = type.toLowerCase();
+                    break;
+            }
+        }
+        
+        const products = await Product.find(filter);
+        res.render('products', { products, user: req.session.user, selectedType: type });
     } catch (error) {
         res.status(500).json({message: error.message});
     }
-};
-
+}
 
 exports.getProduct = async (req, res) => {
     try {
@@ -28,13 +71,13 @@ exports.getProduct = async (req, res) => {
 
 exports.createProduct = async (req, res) => {
     try {
-        const { name, types, freeGluten, price, caduceDate, stock, description} = req.body;
+        const { name, type, freeGluten, price, caduceDate, stock, description} = req.body;
         console.log('Datos recibidos:', req.body);
         const commerceId = req.session.uCommerce.id;
         const photo = '/images/' + req.file.filename; // Ruta de la foto
         const newProduct = new Product({
             name, 
-            type: types, 
+            type, 
             freeGluten, 
             price, 
             caduceDate, 

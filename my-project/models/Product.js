@@ -8,14 +8,17 @@ const productSchema = new Schema({
         type: String, 
         required: true, 
         enum: [
+            'lácteos', 'huevos',
             'frutas', 'verduras',
-            'lácteos', 'huevos', 
             'carnes', 'pollo', 'pescados y mariscos',
-            'panaderia y pasteleria', 
-            'bebidas', 'congelados', 'enlatados', 'pastas', 'arroces', 
-            'cereales', 'snacks y dulces', 'condimentos y salsas',
-            'aceites y vinagres', 'aderezos',
-            'harinas', 'azúcar', 'levadura', 'mezclas para hornear', 'mermeladas y miel', 'tés y cafés',
+            'panaderia', 'pasteleria', 'harina', 'levadura', 'mezclas para hornear',
+            'bebidas', 
+            'congelados',
+            'enlatados', 'pastas', 'arroces',
+            'snacks', 'cereales','dulces', 'mermeladas', 'miel', 'azúcar',
+            'condimentos', 'salsas', 'aderezos',
+            'aceite', 'vinagre', 
+            'té', 'café',
           ]
     }],
     freeGluten: { type: Boolean, required: true }, //con-sin T.A.A.C.

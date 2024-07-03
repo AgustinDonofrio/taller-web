@@ -47,7 +47,7 @@ html
         display: block;
         margin-bottom: 0.25rem;
       }
-      .filter-option:hover {
+      .filter-option:hover, .filter-option.active {
         color: #4CAF50;
       }
       .product-list {
@@ -89,7 +89,7 @@ html
         margin-bottom: 1.rem; /* Espacio entre el precio y el siguiente elemento */
         position: absolute;
         bottom: 3rem; /* Distancia desde abajo */
-        right: 2rem; /* Distancia desde la derecha */
+        right: 1rem; /* Distancia desde la derecha */
       }
       .search-bar {
         width: 100%;
@@ -104,7 +104,7 @@ html
         border-radius: 5px;
         position: absolute;
         bottom: 1rem; /* Distancia desde abajo */
-        right: 2rem; /* Distancia desde la derecha */
+        right: 1rem; /* Distancia desde la derecha */
       }
       .btn.btn-success1 {
         background-color: #28a745; /* Color verde */
@@ -147,21 +147,15 @@ html
               button.btn.btn-success1(type='button', id='cartButton')
                 span#cartIcon
                   i(class='fa fa-shopping-cart')
-
+                  
     main.products
       .filters
         .filter-group
           p.filter-title Tipo de producto
-          a.filter-option(data-type='') Todos
-          a.filter-option(data-type='Lacteos y huevos') Lacteos y huevos
-          a.filter-option(data-type='Frutas y verduras') Frutas y verduras
-          a.filter-option(data-type='Carnes y Pescados') Carnes y Pescados
-          a.filter-option(data-type='Panadería y Pastelería') Panadería y Pastelería
-          a.filter-option(data-type='Bebidas') Bebidas
-          a.filter-option(data-type='Alimentos Congelados') Alimentos Congelados
-          a.filter-option(data-type='Alimentos Secos y Enlatados') Alimentos Secos y Enlatados
-          a.filter-option(data-type='Snacks y Dulces') Snacks y Dulces
-          a.filter-option(data-type='Condimentos y Salsas') Condimentos y Salsas
+          each type in ['Todos', 'Lácteos y Huevos', 'Frutas y Verduras', 'Carnes y Pescados', 'Panadería y Pastelería', 'Bebidas', 'Alimentos Congelados', 'Alimentos Secos y Enlatados', 'Snacks y Dulces', 'Condimentos y Salsas', 'Aceites y Vinagres', 'Tés y Cafés']
+            - var isActive = (selectedType === type || (!selectedType && type === 'Todos')) ? 'active' : ''
+            a.filter-option(class=isActive, href=`/products?type=${type === 'Todos' ? '' : type}`) #{type}
+
 
       .product-list
         if products && products.length
