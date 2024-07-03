@@ -9,6 +9,8 @@ router.get('/', productsController.getProducts);
 
 router.get('/product-details/:productId', productsController.getProduct);
 
+router.get('/mycity', productsController.getProductsByCity);
+
 router.post('/:commerceId/products/new', productsController.createProduct);
 
 router.put('/:productId', productsController.updateProduct);
