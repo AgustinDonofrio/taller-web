@@ -1,8 +1,5 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-const Commerce = require('../models/Commerce.js');
-const Product = require('../models/Product.js');
-const User = require('../models/User.js');
 
 const orderSchema = new Schema({
     user: {

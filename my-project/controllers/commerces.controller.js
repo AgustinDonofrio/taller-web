@@ -49,11 +49,12 @@ exports.getCompras = async (req, res) => {
         const orders = await Order.find({ commerce: commerceId })
             .populate('user', 'firstName lastName')  
             .populate('product', 'name price'); 
-
+        
+        console.log("Ordenes:" + orders);
         res.render('compras', { orders, user: req.session.uCommerce });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: error.message });
+        res.status(500).json({ message: error.message});
     }
 }
 

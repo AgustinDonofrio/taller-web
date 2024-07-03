@@ -8,7 +8,6 @@ const upload = require('../multerConfig');
 
 router.get('/compras', commercesController.getCompras);
 router.get('/', commercesController.getProductsByCommerce);
-//router.post('/', productController.createProduct);
 router.post('/compras/:orderId', orderController.deleteOrder)
 router.put('/:productId', productController.updateProduct);
 router.delete('/:productId', productController.deleteProduct);
