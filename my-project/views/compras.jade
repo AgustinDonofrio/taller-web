@@ -79,6 +79,50 @@ html(lang='en')
               a.dropdown-item(href='/') Cerrar Sesión
     br
 
+    .add-product-form
+      h2 Agregar Producto
+
+      form(action='/commerces', method='POST', enctype='multipart/form-data')
+        .form-group
+          label(for='name') Nombre del Producto
+          input#name.form-control(type='text', name='name', placeholder='Nombre del Producto', required)
+          
+        .form-group
+          label(for='price') Precio
+          input#price.form-control(type='number', name='price', placeholder='Precio', required)
+          
+        .form-group
+          label(for='caduceDate') Fecha de Caducidad
+          input#caduceDate.form-control(type='date', name='caduceDate', placeholder='Fecha de Caducidad', required)
+
+        .form-group
+          label(for='type') Tipo
+          .d-flex.flex-wrap
+            each type in ['frutas', 'verduras', 'lácteos', 'huevos', 'carnes', 'pollo', 'pescados y mariscos', 'panaderia y pasteleria', 'bebidas', 'congelados', 'enlatados', 'pastas', 'arroces', 'cereales', 'snacks y dulces', 'condimentos y salsas', 'aceites y vinagres', 'aderezos', 'harinas', 'azúcar', 'levadura', 'mezclas para hornear', 'mermeladas y miel', 'tés y cafés']
+              .form-check.mx-2.mb-2
+                input.form-check-input(type='checkbox', id=type, name='type[]', value=type)
+                label.form-check-label(for=type)= type
+
+        .form-group
+          label(for='freeGluten') Producto libre de gluten (sin TAAC)
+          select#freeGluten.form-control(name='freeGluten', required)
+            option(value='true') Sí
+            option(value='false') No
+
+        .form-group
+          label(for='stock') Stock
+          input#stock.form-control(type='number', name='stock', placeholder='Stock', required)
+          
+        .form-group
+          label(for='description') Descripción
+          textarea#description.form-control(name='description', rows='3', placeholder='Descripción del Producto')
+          
+        .form-group
+          label(for='photo') Foto del Producto
+          input#photo.form-control(type='file', name='photo', required)
+                    
+        button.btn.btn-primary(type='submit') Agregar Producto
+
   .container
       if orders.length
           table.table.table-sm
@@ -104,37 +148,6 @@ html(lang='en')
       else
           p No hay compras registradas.
 
-
-
-    .add-product-form
-      h2 Agregar Producto
-
-      form(action='/commerces', method='POST')
-        .form-group
-          label(for='name') Nombre del Producto
-          input#name.form-control(type='text', name='name', placeholder='Nombre del Producto', required)
-          
-        .form-group
-          label(for='price') Precio
-          input#price.form-control(type='number', name='price', placeholder='Precio', required)
-          
-        .form-group
-          label(for='caduceDate') Fecha de Caducidad
-          input#caduceDate.form-control(type='date', name='caduceDate', placeholder='Fecha de Caducidad', required)
-          
-        .form-group
-          label(for='stock') Stock
-          input#stock.form-control(type='number', name='stock', placeholder='Stock', required)
-          
-        .form-group
-          label(for='description') Descripción
-          textarea#description.form-control(name='description', rows='3', placeholder='Descripción del Producto', required)
-          
-        .form-group
-          label(for='photo') Foto del Producto
-          input#photo.form-control(type='text', name='photo', required)
-          
-        button.btn.btn-primary(type='submit') Agregar Producto
 
   script(src='https://code.jquery.com/jquery-3.3.1.slim.min.js')
   script(src='https://code.jquery.com/jquery-3.3.1.min.js')

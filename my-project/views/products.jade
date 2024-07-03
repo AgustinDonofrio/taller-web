@@ -26,10 +26,35 @@ html
       }
       .products {
         display: flex;
-        /*flex-wrap: wrap;*/
         justify-content: center;
         gap: 1rem;
         padding: 1rem;
+      }
+      .filters {
+        width: 20%;
+        padding: 1rem;
+      }
+      .filter-group {
+        margin-bottom: 1rem;
+      }
+      .filter-title {
+        font-weight: bold;
+        margin-bottom: 0.5rem;
+      }
+      .filter-option {
+        color: #838383;
+        cursor: pointer;
+        display: block;
+        margin-bottom: 0.25rem;
+      }
+      .filter-option:hover {
+        color: #4CAF50;
+      }
+      .product-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+        width: 80%;
       }
       .product-item {
         border: 1.5px solid #ddd;
@@ -81,20 +106,12 @@ html
         bottom: 1rem; /* Distancia desde abajo */
         right: 2rem; /* Distancia desde la derecha */
       }
-      .btn.btn-success {
-        border-radius: 5px;
-        position: absolute;
-        bottom: 1rem; /* Distancia desde abajo */
-        right: 2rem; /* Distancia desde la derecha */
-      }
       .btn.btn-success1 {
         background-color: #28a745; /* Color verde */
         padding: 0.5rem 1rem; /* Ajuste del padding para dar espacio al contenido del botón */
         color: white; /* Color del texto */
         text-decoration: none; /* Para evitar el subrayado si se usa como enlace */
       }
-
-
 
   body
     .header
@@ -131,32 +148,46 @@ html
                 span#cartIcon
                   i(class='fa fa-shopping-cart')
 
-   
     main.products
-      if products && products.length
-        each product in products
-          - var expirationDate = new Date(product.caduceDate)
-          - var today = new Date()
-          if expirationDate > today
-            .product-item(id=`product${product._id}`)
-              
-              a(href=`/products/product-details/${product._id}`) 
-                img(src=product.photo, alt=product.name)
+      .filters
+        .filter-group
+          p.filter-title Tipo de producto
+          a.filter-option(data-type='') Todos
+          a.filter-option(data-type='Lacteos y huevos') Lacteos y huevos
+          a.filter-option(data-type='Frutas y verduras') Frutas y verduras
+          a.filter-option(data-type='Carnes y Pescados') Carnes y Pescados
+          a.filter-option(data-type='Panadería y Pastelería') Panadería y Pastelería
+          a.filter-option(data-type='Bebidas') Bebidas
+          a.filter-option(data-type='Alimentos Congelados') Alimentos Congelados
+          a.filter-option(data-type='Alimentos Secos y Enlatados') Alimentos Secos y Enlatados
+          a.filter-option(data-type='Snacks y Dulces') Snacks y Dulces
+          a.filter-option(data-type='Condimentos y Salsas') Condimentos y Salsas
 
-              p.product-name #{product.name}
-              
-              p.product-price $#{product.price}
-              
-              form(action=`/carrito/${product._id}`, method='POST', id='addToCartForm')
-                button.btn.btn-success(type='submit') +
-              
-              - var expirationDate = new Date(product.caduceDate)
-              - expirationDate.setMinutes(expirationDate.getMinutes() + expirationDate.getTimezoneOffset()) //Ignorar la zona horaria de la fecha
-              p.product-expiration(style='color: #838383; text-align: left;') vto: #{expirationDate.toLocaleDateString('es-AR', {day: '2-digit', month: '2-digit', year: 'numeric',})}
-                  
+      .product-list
+        if products && products.length
+          each product in products
+            - var expirationDate = new Date(product.caduceDate)
+            - var today = new Date()
+            if expirationDate > today
+              .product-item(data-type=product.type, id=`product${product._id}`)
                 
-      else
-        p No hay productos disponibles
+                a(href=`/products/product-details/${product._id}`) 
+                  img(src=product.photo, alt=product.name)
+
+                p.product-name #{product.name}
+                
+                p.product-price $#{product.price}
+                
+                form(action=`/carrito/${product._id}`, method='POST', id='addToCartForm')
+                  button.btn.btn-success(type='submit') +
+                
+                - var expirationDate = new Date(product.caduceDate)
+                - expirationDate.setMinutes(expirationDate.getMinutes() + expirationDate.getTimezoneOffset()) //Ignorar la zona horaria de la fecha
+                p.product-expiration(style='color: #838383; text-align: left;') vto: #{expirationDate.toLocaleDateString('es-AR', {day: '2-digit', month: '2-digit', year: 'numeric',})}
+                    
+                  
+        else
+          p No hay productos disponibles
 
     script(src='https://code.jquery.com/jquery-3.3.1.slim.min.js')
     script(src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js')
@@ -175,6 +206,16 @@ html
             }
           });
         });
-      });
 
-    
+        $('.filter-option').click(function() {
+          var selectedType = $(this).data('type');
+          $('.product-item').each(function() {
+            var productType = $(this).data('type');
+            if (productType === selectedType || selectedType === '') {
+              $(this).show();
+            } else {
+              $(this).hide();
+            }
+          });
+        });
+      });

@@ -71,11 +71,14 @@ html(lang='en')
             label(for='lastName') Apellido
             input#lastName.form-control(type='text', name='lastName', placeholder='Apellido', value=lastName, required)
 
-        .form-group.password-container
+        .form-group
           label(for='password') Contraseña
-          input#password.form-control(type='password', name='password', placeholder='Contraseña', required minlength='6')
-          small.text-grey 6 caracteres mínimo
-          i.bi.bi-eye-slash-fill.toggle-password
+          .input-group
+            input#password.form-control(type='password', name='password', placeholder='Contraseña', required minlength='6')
+            .input-group-append
+              span.input-group-text
+                i.bi.bi-eye-slash-fill.toggle-password
+          .text-grey 6 caracteres mínimo
         
         .form-group
           label(for='dateOfBirth') Fecha de Nacimiento

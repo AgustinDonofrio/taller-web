@@ -69,10 +69,8 @@ html(lang='en')
           li.nav-item.active
             a.nav-link#toggleFormBtn(href='/commerces/compras') Historial de ventas
               span.sr-only (current)
-
-
          
-          
+     
         form.form-inline.my-2.my-lg-0.mx-auto(id='productFilterForm') 
           input.form-control.mr-sm-2.search-bar(type='search', placeholder='Buscar', aria-label='Buscar', id='productNameInput', style='width: 400px;')
           button.btn.btn-outline-success.my-2.my-sm-0(type='button', id='filterButton') Buscar
@@ -129,19 +127,33 @@ html(lang='en')
         .form-group
           label(for='caduceDate') Fecha de Caducidad
           input#caduceDate.form-control(type='date', name='caduceDate', placeholder='Fecha de Caducidad', required)
-          
+
+        .form-group
+          label(for='type') Tipo
+          .d-flex.flex-wrap
+            each type in ['frutas', 'verduras', 'lácteos', 'huevos', 'carnes', 'pollo', 'pescados y mariscos', 'panaderia y pasteleria', 'bebidas', 'congelados', 'enlatados', 'pastas', 'arroces', 'cereales', 'snacks y dulces', 'condimentos y salsas', 'aceites y vinagres', 'aderezos', 'harinas', 'azúcar', 'levadura', 'mezclas para hornear', 'mermeladas y miel', 'tés y cafés']
+              .form-check.mx-2.mb-2
+                input.form-check-input(type='checkbox', id=type, name='type[]', value=type)
+                label.form-check-label(for=type)= type
+
+        .form-group
+          label(for='freeGluten') Producto libre de gluten (sin TAAC)
+          select#freeGluten.form-control(name='freeGluten', required)
+            option(value='true') Sí
+            option(value='false') No
+
         .form-group
           label(for='stock') Stock
           input#stock.form-control(type='number', name='stock', placeholder='Stock', required)
           
         .form-group
           label(for='description') Descripción
-          textarea#description.form-control(name='description', rows='3', placeholder='Descripción del Producto', required)
+          textarea#description.form-control(name='description', rows='3', placeholder='Descripción del Producto')
           
         .form-group
           label(for='photo') Foto del Producto
           input#photo.form-control(type='file', name='photo', required)
-          
+                    
         button.btn.btn-primary(type='submit') Agregar Producto
 
   script(src='https://code.jquery.com/jquery-3.3.1.slim.min.js')
@@ -172,7 +184,7 @@ html(lang='en')
           }
         });
       });
-    });   
+    });
   
   script.
     $(document).ready(function() {
