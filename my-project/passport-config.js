@@ -31,7 +31,7 @@ passport.use(new GoogleStrategy({
 passport.use(new FacebookStrategy({
     clientID: process.env.FACEBOOK_APP_ID,
     clientSecret: process.env.FACEBOOK_APP_SECRET,
-    callbackURL: "https://food-saver-kts9.onrender.com/auth/google/callback/auth/facebook/callback",
+    callbackURL: "https://food-saver-kts9.onrender.com/auth/facebook/callback",
     profileFields: ['id', 'emails', 'name']
   },
   async (accessToken, refreshToken, profile, done) => {
