@@ -1,5 +1,6 @@
 const Commerce = require('../models/Commerce.js');
 const Product = require('../models/Product.js');
+const User = require('../models/User.js');
 const Order = require('../models/Order.js');
 
 // Crear un nuevo comercio
