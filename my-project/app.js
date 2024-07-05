@@ -45,7 +45,7 @@ app.use(session({
   secret: sessionSecret, 
   resave: false,
   saveUninitialized: false,
-  cookie: { secure: false } // false -> utiliza HTTP y TRUE -> utiliza HTPPS (necesario cuando se despliegue la app)
+  cookie: { secure: true } // false -> utiliza HTTP y TRUE -> utiliza HTPPS (necesario cuando se despliegue la app)
 }));
 
 app.use(passport.initialize());
