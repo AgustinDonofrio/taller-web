@@ -5,9 +5,11 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-var session = require('express-session');
 var methodOverride = require('method-override');
 var multer = require('multer');
+var session = require('express-session');
+const sessionSecret = process.env.SESSION_SECRET || 'default_secret';
+
 
 var indexRouter = require('./routes/index');
 var productsRouter = require('./routes/products.routes');
@@ -18,17 +20,16 @@ var registerUserRouter = require('./routes/registerUser.routes');
 var registerCommerceRouter = require('./routes/registerCommerce.routes');
 var carritoRouter = require('./routes/carrito.routes');
 var storesRouter = require('./routes/stores.routes');
-
 var adminRouter = require('./routes/admin.routes');
 var passport = require('./passport-config');
 var authRouter = require('./routes/auth.routes');
 
+
 const mongoose = require('mongoose');
-const uri = 'mongodb+srv://iciano:1YaZvNnAUWl2sbqv@taller-web.nuf7yyy.mongodb.net/myapp?retryWrites=true&w=majority&appName=taller-web';
+const uri = process.env.MONGODB_URI;
 
 
 var app = express();
-
 
 // Conectar a la base de datos
 (async () => {
@@ -41,10 +42,10 @@ var app = express();
 })();
 
 app.use(session({
-  secret: '12345', 
+  secret: sessionSecret, 
   resave: false,
   saveUninitialized: false,
-  cookie: { secure: false }
+  cookie: { secure: false } // false -> utiliza HTTP y TRUE -> utiliza HTPPS (necesario cuando se despliegue la app)
 }));
 
 app.use(passport.initialize());

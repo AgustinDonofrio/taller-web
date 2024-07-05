@@ -66,11 +66,7 @@ exports.getProductsByCity = async (req, res) => {
         if (!req.session.user) {
             return res.status(401).send('Usuario no autenticado');
         }
-
-        
         const userId = req.session.user.id;
-        console.log('ID del usuario:', userId);
-        
         const user = await User.findById(userId);
 
         if (!user) {
@@ -108,7 +104,6 @@ exports.getProduct = async (req, res) => {
 exports.createProduct = async (req, res) => {
     try {
         const { name, type, freeGluten, price, caduceDate, stock, description} = req.body;
-        console.log('Datos recibidos:', req.body);
         const commerceId = req.session.uCommerce.id;
         const photo = '/images/' + req.file.filename; // Ruta de la foto
         const newProduct = new Product({
@@ -154,7 +149,6 @@ exports.deleteProduct = async (req, res) => {
         if (fs.existsSync(imagePath)) {
             // Eliminar el archivo
             fs.unlinkSync(imagePath);
-            console.log(`Archivo ${imagePath} eliminado exitosamente.`);
         }
         // Eliminar el producto de la base de datos
         await Product.findByIdAndDelete(productId);

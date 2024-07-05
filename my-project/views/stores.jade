@@ -7,7 +7,6 @@ html
     link(rel='stylesheet', href='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css')
     link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css')
     link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.8.1/font/bootstrap-icons.min.css')
-    link(rel='stylesheet', type='text/css', href='estilo.css')
     
     style.
       .header {
@@ -122,7 +121,7 @@ html
             each store in stores
               tr.store-item
                 td.store-name= store.name
-                td.store-address= `${store.address}, ${store.city}, ${store.country}`
+                td.store-address= `${store.address}, ${store.city}, ${store.province}, ${store.country}`
                 td
                   a(href=`#`, onclick=`mostrarMapa('${store.address}', '${store.city}','${store.country}')`)
                     button.btn.btn-primary(type='button')
@@ -134,7 +133,7 @@ html
     #map
     button#closeMapBtn(type='button', onclick='cerrarMapa()') &times;
 
-  script(src='https://maps.googleapis.com/maps/api/js?key=AIzaSyBgeITGWufOnpfGnUJf0lC0Nc8F8YT-0DM&callback=initMap')
+  script(src="https://maps.googleapis.com/maps/api/js?key=" + googleMapsApiKey + "&callback=initMap")
   script(src='https://code.jquery.com/jquery-3.3.1.slim.min.js')
   script(src='https://code.jquery.com/jquery-3.3.1.min.js')
   script(src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js')
@@ -167,27 +166,29 @@ html
     
     async function mostrarMapa(address, city, country) {
       try {
-          const geocodingData = await geocodeAddress(address, city, country);
-          if (geocodingData && geocodingData.results.length > 0) {
-              const location = geocodingData.results[0].location;
-              const coord = { lat: location.lat, lng: location.lng };
+        const fullAddress = `${address}, ${city}, ${country}`;
+        const geocodingData = await geocodeAddress(fullAddress);
+        if (geocodingData && geocodingData.results.length > 0) {
+          const location = geocodingData.results[0].location;
+          const coord = { lat: location.lat, lng: location.lng };
 
-              var map = new google.maps.Map(document.getElementById('map'), {
-                  zoom: 15,
-                  center: coord
-              });
-              var marker = new google.maps.Marker({
-                  position: coord,
-                  map: map
-              });
+          var map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 15,
+            center: coord
+          });
+
+          var marker = new google.maps.Marker({
+            position: coord,
+            map: map
+          });
               
-              // Mostrar el contenedor del mapa si no está visible
-              $('#map-container').show();
-          } else {
-              console.error('No se encontraron resultados de geocodificación para la dirección:', address);
-          }
+          // Mostrar el contenedor del mapa si no está visible
+          $('#map-container').show();
+        } else {
+          console.error('No se encontraron resultados de geocodificación para la dirección:', address);
+        }
       } catch (error) {
-          console.error('Error en la función mostrarMapa:', error);
+        console.error('Error en la función mostrarMapa:', error);
       }
     } 
 

@@ -8,6 +8,7 @@ exports.createCommerce = async (req, res) => {
     try {
         const {name, password, email, address, postal_code, city, province, country} = req.body;
         const newCommerce = new Commerce({name, password, email, address, postal_code, city, province, country});
+        console.log('Este es el nuevo comercio: ', newCommerce);
         await newCommerce.save();
         res.redirect('/');
     } catch (error) {
@@ -34,7 +35,12 @@ exports.getProductsByCommerce = async (req, res) => {
 exports.getCommerces = async (req, res) => {
     try {
         const stores = await Commerce.find();
-        res.render('stores', { stores, user: req.session.user });
+        const googleMapsApiKey = process.env.GOOGLE_MAPS_API_KEY;
+        res.render('stores', { 
+            stores, 
+            user: req.session.user, 
+            googleMapsApiKey
+        });
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: error.message });
@@ -49,8 +55,7 @@ exports.getCompras = async (req, res) => {
         const orders = await Order.find({ commerce: commerceId })
             .populate('user', 'firstName lastName')  
             .populate('product', 'name price'); 
-        
-        console.log("Ordenes:" + orders);
+
         res.render('compras', { orders, user: req.session.uCommerce });
     } catch (error) {
         console.error(error);

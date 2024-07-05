@@ -211,9 +211,6 @@ html(lang='en')
           updatedData[fieldName] = fieldValue;
         });
 
-        console.log('commerceId:', commerceId);
-        console.log('updatedData:', updatedData);
-
         $.ajax({
           url: `/admin/${commerceId}`,
           method: 'PUT',

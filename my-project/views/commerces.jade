@@ -250,9 +250,6 @@ html(lang='en')
           updatedData[fieldName] = fieldValue;
         });
 
-        console.log('productId:', productId);
-        console.log('updatedData:', updatedData);
-
         $.ajax({
           url: `/commerces/${productId}`,
           method: 'PUT',
