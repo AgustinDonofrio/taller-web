@@ -28,9 +28,6 @@ var authRouter = require('./routes/auth.routes');
 const mongoose = require('mongoose');
 const uri = process.env.MONGODB_URI;
 
-
-var app = express();
-
 // Conectar a la base de datos
 (async () => {
   try {
@@ -45,7 +42,7 @@ app.use(session({
   secret: sessionSecret, 
   resave: false,
   saveUninitialized: false,
-  cookie: { secure: false } // false -> utiliza HTTP y TRUE -> utiliza HTPPS (necesario cuando se despliegue la app)
+  cookie: { secure: false }
 }));
 
 app.use(passport.initialize());
